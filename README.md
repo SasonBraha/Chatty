@@ -8,7 +8,7 @@ Chat App Built With Node, Express, MongoDB, Redis, SocketIO, React And Redux
 This project is not production ready, feel free to use any of the code in your projects. 
 ```
 
-##Prerequisites
+## Prerequisites
 
 ```
 You need to have MongoDB, Redis installed on your machine.
