@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setIsTyping, submitMessage, fetchUserSuggestions } from '../../../redux/actions';
-import UplaodImage from '../UploadImage/UploadImage';
-import { StyledAddMessageContainer, StyledForm, typeAreaStyle, StyledSubmitMessage, StyledMentionUsers } from './AddMessage.style';
+import AttachFile from '../AttachFile';
+import { StyledAddMessageContainer, StyledForm, typeAreaStyle, StyledSubmitMessage } from './AddMessage.style';
 import InputTrigger from 'react-input-trigger';
-import List from '../../List/List';
-import ListItem from '../../List/ListItem';
+import UserSuggestor from '../UserSuggestor';
 
 class AddMessage extends Component {
   state = { 
@@ -32,24 +31,8 @@ class AddMessage extends Component {
   render() {
     return (
       <StyledAddMessageContainer>
-        <StyledMentionUsers>
-          { this.state.showSuggestor && (
-              <List color="black">
-                {
-                  this.props.suggestedUsers.map(user => (
-                    <ListItem 
-                      to="/" 
-                      image={user.avatar} 
-                      body={user.displayName}
-                      backgroundOnHover="dark"
-                      key={user._id} 
-                    />
-                  ))
-                }
-              </List>
-          )}
-        </StyledMentionUsers>
-        <UplaodImage />
+        { this.state.showSuggestor && <UserSuggestor /> }
+        <AttachFile />
         <StyledForm onSubmit={this.handleSubmit}>
           <InputTrigger
             trigger={{ keyCode: 50, shiftKey: true }}
@@ -74,9 +57,8 @@ class AddMessage extends Component {
   }
 }
 
-const mapStateToProps = ({ chat: { isTyping, suggestedUsers } }) => ({ 
-  isTyping, 
-  suggestedUsers
+const mapStateToProps = ({ chat: { isTyping } }) => ({ 
+  isTyping
 });
 export default connect(mapStateToProps, { setIsTyping, submitMessage, fetchUserSuggestions })(AddMessage);
 

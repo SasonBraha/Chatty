@@ -1,5 +1,5 @@
 import { Chat } from '../models';
-import requireAuth from '../utils/Authentication/requireAuth';
+import requireAuth from '../utils/requireAuth';
 import { translate } from '../utils';
 import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
@@ -15,7 +15,7 @@ const router: Router = Router();
  */
 router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const chatRooms = await Chat.find({ $or: [{ status: 'private', allowedUsers: req.user._id }, { status: 'public' }] }).sort({ updatedAt: -1 }).lean();
+    const chatRooms = await Chat.find({ $or: [{ status: 'private', allowedUsers: req.user._id }, { status: 'public' }] }).sort({ updatedAt: -1 } ).lean();
     res.json(chatRooms);
   } catch (ex) {
     next(`500 ${ex}`);
@@ -30,8 +30,8 @@ router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunct
 router.post('/', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Validate Form
-    const { errors, isValid } = createChatValidator(req.body);
-    if (!isValid) return res.status(400).json(errors);
+    // const { errors, isValid } = createChatValidator(req.body);
+    // if (!isValid) return res.status(400).json(errors);
 
     const { name, status, storeMessages } = req.body;
     // Create Chat Room

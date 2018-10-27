@@ -45,7 +45,7 @@ export {
   newMessage,
   updateActiveUsers,
   updateTypingUsers,
-  setImagePreview,
+  handleFileUpload,
   setIsTyping,
   submitMessage,
   resetChatState,

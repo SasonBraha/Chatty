@@ -1,4 +1,4 @@
-import requireAuth from '../utils/Authentication/requireAuth';
+import requireAuth from '../utils/requireAuth';
 import { Notification } from '../models';
 import { Router, Request, Response, NextFunction } from 'express';
 const router: Router = Router();

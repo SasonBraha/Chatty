@@ -23,7 +23,8 @@ class Chat extends Component {
       .on('server:updateUserList', activeUsers => updateActiveUsers(activeUsers))
       .on('server:userIsTyping', displayName => updateTypingUsers('addUser', displayName))
       .on('server:userStoppedTyping', displayName => updateTypingUsers('removeUser', displayName))
-      .on('server:newMessage', messageData => newMessage(messageData));
+      .on('server:newMessage', messageData => newMessage(messageData))
+      .on('server:fileUploaded', fileData => console.log(fileData))
     fetchChatRoom(urlSlug);
   }
 

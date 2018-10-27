@@ -12,6 +12,7 @@ export const StyledMessage = styled.div`
   border-radius: .5rem;
   min-width: 25rem;
   max-width: 50rem;
+  max-height: 40rem;
   box-shadow: 0 0 .5rem ${shadowColor};
   background: white;
   color: black;
@@ -32,19 +33,6 @@ export const StyledMessage = styled.div`
     text-decoration: underline;
     color: inherit;
   }
-
-  &:after {
-    /* content: "";
-    position: absolute;
-    left: 1.5em;
-    bottom: -1em;
-    height: 0;
-    width: 0;
-    border-top: 40px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 82px solid #fff;
-    transform: rotate(-33deg); */
-  }
 `;
  
 export const StyledMetaData = styled.small`
@@ -57,6 +45,16 @@ export const StyledMetaData = styled.small`
   `}
 `;
 
-export const StyledBody = styled.div`
+export const StyledMessageBody = styled.div`
   padding: .4rem 0;
+`;
+
+export const StyledFigure = styled.figure`
+  max-height: 32rem;
+`;
+
+export const StyledImage = styled.img`
+  max-height: 32rem;
+  max-width: 100%;
+  border-radius: .35rem;
 `;

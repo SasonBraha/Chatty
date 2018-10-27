@@ -1,8 +1,7 @@
 import Store from './Store';
 import { Chat } from '../../models';
-import { IUser } from '../../models/User';
-import { toBase64String } from '../../utils';
-import { putObject } from '../../config/s3/s3.methods'; 
+import { putObject, getUploadAndFileData } from '../../config/s3/s3.methods'; 
+import * as uuid from 'uuid';
 
 const store = new Store();
 
@@ -50,30 +49,43 @@ export default async (io, socket, userData) => {
     })
 
     // Handle New Message
-    .on('client:newMessage', async ({ body, image }, cb) => {
+    .on('client:newMessage', async ({ body, file }, cb) => {
       if (!body.length) return;
-      // Check For Permission To Emit Message
       if (currentChatRoom) {
+        // Get Pre Upload File Data //! Both { uploadData, fileData } Are Null If No File
+        const uploadAndFileData = await getUploadAndFileData(file, currentChatRoom.slug);
+        const uniqueFileId = uuid();
+
+        // Emit New Message
         io.to(currentChatRoom.slug).emit('server:newMessage', {
           createdBy: userData,
           body,
-          image: toBase64String(image)
+          file: uploadAndFileData.fileData,
+          createdAt: new Date()
         });
         typeof cb === 'function' && cb();
 
-        // Store Message In DB
+        // Save File If Exsits
+        if (file) {
+          // Save File To S3
+          await putObject(uploadAndFileData.uploadData);
+
+          // Emit To Client That File Saved
+          socket.emit('server:fileUploaded', { fileData: uploadAndFileData.fileData, uniqueFileId });
+        }
+      
+        // Check If Chat Room Allows Message Storing
         if (currentChatRoom && currentChatRoom.storeMessages) {
+          currentChatRoom.lastMessage = body;
           currentChatRoom.messages.push({
             body,
             createdBy: {
               _id: userData._id,
               displayName: userData.displayName,
-              slug: userData.slug,
-              avatar: userData.avatar
-            }, 
-            image: image ? await putObject(image, currentChatRoom.slug) : null
+              slug: userData.slug
+            },
+            file: uploadAndFileData.fileData
           });
-          currentChatRoom.lastMessage = `${body}`;
           await currentChatRoom.save();
         }
       }

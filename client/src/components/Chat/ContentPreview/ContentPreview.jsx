@@ -4,16 +4,16 @@ import Fade from '../../FadeIn/Fade';
 import AddMessage from '../AddMessage/AddMessage';
 import { StyledContentPreview, StyledImagePreview } from './ContentPreview.style';
 
-const ContentPreview = ({ image }) => (
-  image && (
-    <Fade in={image !== null} timeout={1000}>
+const ContentPreview = ({ file }) => (
+  file && (
+    <Fade in={file !== null} timeout={1000}>
       <StyledContentPreview>
-        <StyledImagePreview src={URL.createObjectURL(image)} alt="תמונה להעלאה" />
+        <StyledImagePreview src={URL.createObjectURL(file)} alt="תמונה להעלאה" />
         <AddMessage /> 
       </StyledContentPreview>
     </Fade>
   )
 );
 
-const mapStateToProps = ({ chat: { image } }) => ({ image });
+const mapStateToProps = ({ chat: { file } }) => ({ file });
 export default connect(mapStateToProps, null)(ContentPreview);

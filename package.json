@@ -5,16 +5,11 @@
   "main": "dist/app.js",
   "scripts": {
     "test": "jest",
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/app.js\" \"npm start --prefix client\"",
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/app.js --ignore client\" \"npm start --prefix client\"",
     "client-install": "npm i --prefix client"
   },
   "author": "Sason Braha",
   "license": "MIT",
-  "nodemonConfig": {
-    "ignore": [
-      "/client/src"
-    ]
-  },
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/mongodb": "^3.1.12",
@@ -28,6 +23,7 @@
     "aws-sdk": "^2.334.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "buffer-image-size": "^0.6.4",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "express": "^4.16.4",

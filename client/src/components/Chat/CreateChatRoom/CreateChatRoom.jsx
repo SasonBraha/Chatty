@@ -21,7 +21,7 @@ class CreateChatRoom extends Component {
   }
 
   render() {
-    const { isCreateChatRoomModalOpen, setCreateRoomModalState } = this.props;
+    const { isCreateChatRoomModalOpen } = this.props;
     return (
       <Transition in={isCreateChatRoomModalOpen} timeout={300} mountOnEnter={true} unmountOnExit={true}>
         {

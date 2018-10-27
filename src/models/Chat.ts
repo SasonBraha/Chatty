@@ -1,15 +1,13 @@
 import { Document, Schema, model } from 'mongoose';
 import ObjectID = Schema.Types.ObjectId;
+import { IUser, UserSchema } from './User';
+import { IFile, FileSchema } from './File';
 
 interface IMessage {
   body: string;
   image: string;
-  createdBy: {
-    _id: string;
-    displayName: string;
-    slug: string;
-    avatar: string;
-  };
+  file: IFile;
+  createdBy: IUser;
 }
 
 export interface IChat extends Document {
@@ -28,17 +26,15 @@ const Message = new Schema({
   body: {
     type: String,
     required: true,
-    trim: true
+    trim: true 
   },
-  image: {
-    type: String,
-    trim: true
-  }, 
+  file: {
+    type: FileSchema
+  },
   createdBy: {
     _id: String,
     displayName: String,
-    slug: String,
-    avatar: String
+    slug: String
   }
 }, { timestamps: true });
 

@@ -1,21 +1,44 @@
 import * as uuid from 'uuid';
-import { s3 } from './s3Config'; 
+import validateFile from '../../utils/Validation/validateFile';
 import keys from '../keys';
-import * as fileType from 'file-type';
+import { s3 } from './s3Config'; 
+import { IFile } from '../../models/File';
 
-export function putObject(file, roomName): Promise<string> { 
-  const { ext, mime } = fileType(file); 
-  return new Promise((resolve, reject) => {
+export async function getUploadAndFileData(file: Buffer, refrence: string) {
+  try {
+    if (!file) return { uploadData: null, fileData: null };
+    const { fileExtension, mimeType, dimensions: { height, width } } = await validateFile(file);
     const uploadData = {
-      Key: `${roomName}/${uuid()}.${ext}`,
+      Key: `${refrence}/${uuid()}.${fileExtension}`,
       Bucket: keys.s3Bucket,
       Body: file,
       ContentEncoding: 'base64', 
-      ContentType: mime
+      ContentType: mimeType  
     }
-    s3.putObject(uploadData, (err, data) => {
-      if (err) reject(err);
-      resolve(uploadData.Key)
+    const fileData = {
+      type: fileExtension,
+      link: uploadData.Key,
+      dimensions: {
+        height,
+        width
+      }
+    }
+    return { 
+      uploadData, 
+      fileData: fileData
+    };
+  } catch (ex) {
+    console.log(ex)
+  }
+}
+
+
+export async function putObject(uploadData) { 
+  try {
+    return new Promise((resolve, reject) => {
+      s3.putObject(uploadData, err => err ? reject(err) : resolve())
     });
-  });
+  } catch (ex) {
+    console.log(ex)
+  }
 }

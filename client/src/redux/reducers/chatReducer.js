@@ -5,7 +5,7 @@ import {
   UPDATE_ACTIVE_USERS,
   ADD_TYPING_USER,
   REMOVE_TYPING_USER,
-  SET_IMAGE_PREVIEW,
+  SET_FILE,
   SET_IS_TYPING,
   SET_IS_FETCHING_PREVIOUS_MESSAGES,
   SET_IS_MORE_PREVIOUS_MESSAGES,
@@ -21,7 +21,7 @@ const initialState = {
   activeUsers: [],
   messages: [],
   isTyping: false,
-  image: null,
+  file: null,
   currentChatRoom: {},
   urlSlug: '',
   suggestedUsers: [],
@@ -87,10 +87,10 @@ export default (state = initialState, action) => {
         )
       };
 
-    case SET_IMAGE_PREVIEW:
+    case SET_FILE:
       return {
         ...state,
-        image: action.payload
+        file: action.payload
       };
 
     case SET_IS_TYPING:

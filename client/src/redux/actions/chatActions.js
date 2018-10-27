@@ -5,7 +5,7 @@ import {
   UPDATE_ACTIVE_USERS,
   ADD_TYPING_USER,
   REMOVE_TYPING_USER,
-  SET_IMAGE_PREVIEW,
+  SET_FILE,
   SET_IS_TYPING,
   RESET_CHAT_STATE,
   SET_IS_FETCHING_PREVIOUS_MESSAGES,
@@ -53,20 +53,32 @@ export const updateTypingUsers = (action, displayName) => dispatch => {
   dispatch({ type: actionType, payload: displayName });
 };
 
-export const setImagePreview = image => dispatch => {
-  if (image) {
-    const newImage = new Image();
-    // Check For Valid Image
-    newImage.onerror = () => {
-      dispatch(setToast('התמונה אינה תקנית, אנא נסה/י שנית'));
-    };
-    // If Valid, Show Image Preview
-    newImage.onload = () => {
-      dispatch({ type: SET_IMAGE_PREVIEW, payload: image });
-    };
+export const handleFileUpload = file => dispatch => {
+  const maxFileSize = 5000; // KB
+  const allowedFileTypes = [
+    'jpg', 'jpeg',
+    'png', 'gif',
+    'webp', 'bmp'
+  ];
+  // Check File Type
+  const fileType = file.type.split('/')[1];
+  if (!allowedFileTypes.includes(fileType)) return dispatch(setToast('הקובץ שנבחר לא נתמך במערכת'));
+  
+  // Check File Size
+  const fileSizeInKB = Math.floor(file.size / 1024);
+  if (fileSizeInKB > maxFileSize) return dispatch(setToast(`הקובץ שנבחר גדול מדי, הגודל המירבי הניתן להעלאה הינו ${Math.ceil(maxFileSize / 1024)}MB`));
+  dispatch({ type: SET_FILE, payload: file })
+    // const newfile = new Image();
+    // // Check For Valid file
+    // newfile.onerror = () => {
+    //   dispatch(setToast('התמונה אינה תקנית, אנא נסה/י שנית'));
+    // };
+    // // If Valid, Show file Preview
+    // newfile.onload = () => {
+    //   dispatch({ type: SET_FILE, payload: file });
+    // };
 
-    newImage.src = URL.createObjectURL(image);
-  }
+    // newfile.src = URL.createObjectURL(file);
 };
 
 let isTypingTimeout;
@@ -86,9 +98,10 @@ export const setIsTyping = () => (dispatch, getState) => {
 };
 
 export const submitMessage = body => async (dispatch, getState) => {
-  const { chat: { image } } = getState();
-  socket.emit('client:newMessage', { body, image });
-  dispatch(setImagePreview(null));
+  const { chat: { file } } = getState();
+  console.log(file, 'FROM SUBMIT MESSAGE')
+  socket.emit('client:newMessage', { body, file });
+  // dispatch(handleFileUpload(null));
 };
 
 export const resetChatState = () => ({

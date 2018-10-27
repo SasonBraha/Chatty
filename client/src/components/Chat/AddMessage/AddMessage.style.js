@@ -15,17 +15,6 @@ export const StyledForm = styled.form`
   flex-grow: 1;
 `;
 
-export const StyledMentionUsers = styled.div`
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-  background: white;
-  bottom: 8.05rem;
-  right: 0;
-  transition: .3s;
-  box-shadow: 0 -.3rem .4rem rgba(0, 0, 0, .07);
-`;
-
 export const typeAreaStyle = {
   borderRadius: '2rem',
   padding: '1.4rem',

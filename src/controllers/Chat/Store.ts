@@ -12,20 +12,20 @@ client.hget = promisify(client.hget);
 client.hdel = promisify(client.hdel);
 
 class Store {
-  private async getAllActiveUsers(roomName: string) {
+  private async _getAllActiveUsers(roomName: string) {
     const userList = await client.hget('activeUsers', roomName);
     return Array.isArray(JSON.parse(userList)) ? JSON.parse(userList) : [];
   }
 
-  private async updatedUserList(userList, roomName) {
+  private async _updatedUserList(userList, roomName) {
     await client.hset('activeUsers', roomName, JSON.stringify(userList));
   }
 
   public async addUser(roomName: string, userData: IUser, cb: Function) {
     try {
-      const userList = await this.getAllActiveUsers(roomName);
+      const userList = await this._getAllActiveUsers(roomName);
       userList.push(userData);
-      await this.updatedUserList(userList, roomName);
+      await this._updatedUserList(userList, roomName);
       cb(userList);
     } catch (ex) {
       logger.log('error', ex);
@@ -34,9 +34,9 @@ class Store {
 
   public async removeUser(roomName: string, userData: IUser, cb: Function) {
     try {
-      const userList = await this.getAllActiveUsers(roomName);
+      const userList = await this._getAllActiveUsers(roomName);
       const updatedUserList = userList.filter(user => user._id !== userData._id);
-      await this.updatedUserList(updatedUserList, roomName);
+      await this._updatedUserList(updatedUserList, roomName);
       cb(updatedUserList);
     } catch (ex) {
       logger.log('error', ex);

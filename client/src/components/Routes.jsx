@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
 import Profile from './Users/Profile/Profile';
-import CreateChatRoom from './Chat/CreateChatRoom/CreateChatRoom';
 import Chat from './Chat';
 import ChatLobby from './Chat/Lobby';
 import ErrorPage from './ErrorPage'

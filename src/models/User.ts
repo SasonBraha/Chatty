@@ -15,7 +15,7 @@ export interface IUser extends Document {
   comparePassword(password: string): boolean;
 }
 
-const UserSchema = new Schema(
+export const UserSchema = new Schema(
   {
     displayName: {
       type: String,
@@ -88,9 +88,9 @@ UserSchema.pre('save', async function(next) {
 UserSchema.methods.comparePassword = async function(candidatePassword) {
   try {
     const isMatch = await bcrypt.compare(candidatePassword, this.password);
-    return Promise.resolve(isMatch);
+    Promise.resolve(isMatch);
   } catch (ex) {
-    return Promise.reject(ex);
+    Promise.reject(ex);
   }
 };
 

@@ -1,4 +1,5 @@
 import * as http from 'http';
+import * as path from 'path';
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';   
 import * as helmet from 'helmet';
@@ -16,9 +17,8 @@ import socketController from './controllers/socketController';
 import authRoutes from './routes/authRoutes';
 import chatRoutes from './routes/chatRoutes'; 
 import userRoutes from './routes/userRoutes';
-import uploadRoutes from './routes/uploadRoutes';
 import notificationRoutes from './routes/notificationRoutes'; 
-import Trimmer from './utils/Trimmer'; 
+import trimmer from './utils/trimmer'; 
 import errorHandler from './handlers/errorHanlder'; 
 
 const app = express();
@@ -30,18 +30,17 @@ export const io = socketIO(server);
 //  DB Config & Connection            //
 //------------------------------------//
 mongoose.set('useCreateIndex', true);
-mongoose.connect(keys.mongoUri, { useNewUrlParser: true }).catch(e => { throw Error(e) });
+mongoose.connect(keys.mongoUri, { useNewUrlParser: true }).catch(ex => { throw Error(ex) });
 
 //------------------------------------//
 //  Middlewares                       //
 //------------------------------------//
-app.use(morgan('dev'));
-
 // Helmet Security 
 app.use(helmet());
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(cors());
+  app.use(morgan('dev'));
 }
 
 // Socket JWT Validation
@@ -56,8 +55,8 @@ app.use(compression());
 // Body Parser Middleware
 app.use(bodyParser.json());
 
-// Trim All <req.body>
-app.use(Trimmer);
+// Trim All { <req.body> }
+app.use(trimmer);
 
 // Passport Authentication 
 app.use(passport.initialize());
@@ -67,10 +66,15 @@ app.use(passport.initialize());
 //------------------------------------//
 app.use('/api/users', userRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/api/upload', uploadRoutes);
 app.use('/api/auth', authRoutes);  
 app.use('/api/notifications', notificationRoutes);
-app.all('*', (req: Request, res: Response, next: NextFunction) => next(new Error('404')));
+
+// Serve { index.html } In Production
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req: Request, res: Response, next: NextFunction) => {
+    res.sendFile(path.resolve('client/build/index.html'));
+  })
+}
 
 //------------------------------------// 
 //  Initalize                         //
