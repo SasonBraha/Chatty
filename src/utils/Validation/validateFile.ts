@@ -21,7 +21,7 @@ export default (file: Buffer): Promise<IFileData> => {
     'webp', 'bmp'
   ];
 
-  // File Size
+  // File Size In KB
   const fileSizeInKB: number = Math.floor(Buffer.byteLength(file, 'utf8') / 1024);
   // File Type
   const { ext: fileExtension, mime: mimeType } = fileType(file);

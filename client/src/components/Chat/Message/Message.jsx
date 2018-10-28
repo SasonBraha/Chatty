@@ -5,13 +5,19 @@ import { Link } from 'react-router-dom';
 import { StyledMessageContainer, StyledMessage, StyledMetaData, StyledMessageBody, StyledFigure, StyledImage } from './Message.style';
 import formatRelative from 'date-fns/formatRelative';
 import he from 'date-fns/locale/he';
+import { S3_BUCKET_URL } from '../../../resources/constants';
 
 const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }) => {
+  const renderFileLoader = () => {
+    
+  }
+
   const renderFile = () => {
     return file && (
       <StyledFigure>
         <StyledImage 
-          src={`https://s3.eu-central-1.amazonaws.com/chatty-bucket/${file.link}`}
+          src={file.link && `${S3_BUCKET_URL}/${file.link}`}
+          id={file.uniqueFileId}
         />
       </StyledFigure>
     );

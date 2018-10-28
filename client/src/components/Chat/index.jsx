@@ -14,6 +14,7 @@ import CreateChatRoom from './CreateChatRoom/CreateChatRoom';
 import ContentPreview from './ContentPreview/ContentPreview';
 import socket from '../../resources/socket';
 import Helmet from 'react-helmet';
+import { S3_BUCKET_URL } from '../../resources/constants';
 
 class Chat extends Component {
   initChat() {
@@ -24,7 +25,9 @@ class Chat extends Component {
       .on('server:userIsTyping', displayName => updateTypingUsers('addUser', displayName))
       .on('server:userStoppedTyping', displayName => updateTypingUsers('removeUser', displayName))
       .on('server:newMessage', messageData => newMessage(messageData))
-      .on('server:fileUploaded', fileData => console.log(fileData))
+      .on('server:fileUploaded', ({ fileData, uniqueFileId }) => {
+        document.getElementById(uniqueFileId).src = `${S3_BUCKET_URL}/${fileData.link}`;
+      });
     fetchChatRoom(urlSlug);
   }
 

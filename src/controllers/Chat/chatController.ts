@@ -60,7 +60,7 @@ export default async (io, socket, userData) => {
         io.to(currentChatRoom.slug).emit('server:newMessage', {
           createdBy: userData,
           body,
-          file: uploadAndFileData.fileData,
+          file: uploadAndFileData.fileData ? { uniqueFileId } : null,
           createdAt: new Date()
         });
         typeof cb === 'function' && cb();

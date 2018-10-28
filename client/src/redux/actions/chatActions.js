@@ -67,18 +67,8 @@ export const handleFileUpload = file => dispatch => {
   // Check File Size
   const fileSizeInKB = Math.floor(file.size / 1024);
   if (fileSizeInKB > maxFileSize) return dispatch(setToast(`הקובץ שנבחר גדול מדי, הגודל המירבי הניתן להעלאה הינו ${Math.ceil(maxFileSize / 1024)}MB`));
-  dispatch({ type: SET_FILE, payload: file })
-    // const newfile = new Image();
-    // // Check For Valid file
-    // newfile.onerror = () => {
-    //   dispatch(setToast('התמונה אינה תקנית, אנא נסה/י שנית'));
-    // };
-    // // If Valid, Show file Preview
-    // newfile.onload = () => {
-    //   dispatch({ type: SET_FILE, payload: file });
-    // };
 
-    // newfile.src = URL.createObjectURL(file);
+  dispatch({ type: SET_FILE, payload: file })
 };
 
 let isTypingTimeout;
@@ -99,9 +89,8 @@ export const setIsTyping = () => (dispatch, getState) => {
 
 export const submitMessage = body => async (dispatch, getState) => {
   const { chat: { file } } = getState();
-  console.log(file, 'FROM SUBMIT MESSAGE')
   socket.emit('client:newMessage', { body, file });
-  // dispatch(handleFileUpload(null));
+  dispatch({ type: SET_FILE, payload: null })
 };
 
 export const resetChatState = () => ({
