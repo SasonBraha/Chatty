@@ -11,7 +11,7 @@ const StyledContainer = styled.div`
 
   ${({ navOpen, windowWidth }) =>
     navOpen &&
-    windowWidth > 992 &&
+    windowWidth >= 992 &&
     css`
       transform: translateX(-25rem);
       width: calc(100% - 25rem);
@@ -24,7 +24,17 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    window.onresize = () => this.setState({ windowWidth: window.innerWidth });
+    window.onresize = () => {
+      const isWidthOver992 = window.matchMedia('(min-width: 992px)').matches;
+      const isWidthLess992 = window.matchMedia('(max-width: 992px)').matches;
+      if (this.state.windowWidth < 992 && isWidthOver992) {
+        this.setState({ windowWidth: 992 });
+      }
+
+      if (this.state.windowWidth >= 992 && isWidthLess992) {
+        this.setState({ windowWidth: 0 });
+      }
+    }
   }
 
   render() {
