@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Room from './Room';
 import RoomsList from './RoomsList';
 import { connect } from 'react-redux';
+import requireAuth from '../Hoc/requireAuth';
+import CreateChatRoom from './CreateChatRoom';
+import socket from '../../resources/socket';
+import { S3_BUCKET_URL } from '../../resources/constants';
 import {
   resetChatState,
   updateActiveUsers,
@@ -9,21 +13,10 @@ import {
   newMessage,
   fetchChatRoom
 } from '../../redux/actions';
-import requireAuth from '../Hoc/requireAuth';
-import CreateChatRoom from './CreateChatRoom';
-import socket from '../../resources/socket';
-import Helmet from 'react-helmet';
-import { S3_BUCKET_URL } from '../../resources/constants';
 
 class Chat extends Component {
   initChat() {
-    const {
-      fetchChatRoom,
-      updateActiveUsers,
-      updateTypingUsers,
-      newMessage,
-      urlSlug
-    } = this.props;
+    const { fetchChatRoom, updateActiveUsers, updateTypingUsers, newMessage, urlSlug } = this.props;
     socket
       .emit('client:joinChatRoom', urlSlug)
       .on('server:updateUserList', activeUsers =>
@@ -71,9 +64,6 @@ class Chat extends Component {
   render() {
     return (
       <div style={{ display: 'flex', height: '100%' }}>
-        <Helmet>
-          <title>{this.props.urlSlug}</title>
-        </Helmet>
         <RoomsList />
         <Room />
         <CreateChatRoom />

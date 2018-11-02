@@ -9,5 +9,6 @@ export default {
   redisUri: process.env.REDIS_URL,
   baseUrl: process.env.BASE_URL,
   googleOAuthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-  googleOAuthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET
+  googleOAuthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+  googleRecaptchaSecretKey: process.env.GOOGLE_RECAPTCHA_SECRET_KEY
 }

@@ -5,6 +5,8 @@ import Form from '../Form/Form';
 import Field from '../Form/Field';
 import Helmet from 'react-helmet'; 
 import guestOnly from '../Hoc/guestOnly'; 
+import Recaptcha from 'react-google-invisible-recaptcha';
+import { GOOGLE_RECAPTCHA_SITE_KEY } from '../../resources/constants';
 
 class Register extends Component {
   state = {
@@ -12,7 +14,8 @@ class Register extends Component {
       displayName: '',
       email: '',
       password: '',
-      verifyPassword: ''
+      verifyPassword: '',
+      recaptchaResponse: ''
     }, 
     errors: {}
   }
@@ -28,7 +31,16 @@ class Register extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.registerUser(this.state.values).catch(errors => this.setState({ errors }));
+    this.recaptcha.execute();
+  }
+
+  onCaptchaResolve = _ => {
+    this.setState({
+      values: {
+        ...this.state.values,
+        recaptchaResponse: this.recaptcha.getResponse()
+      }
+    }, () => this.props.registerUser(this.state.values, this.recaptcha));
   }
   
   render() {
@@ -82,6 +94,13 @@ class Register extends Component {
             error={errors.verifyPassword}
             labelValue='וודא סיסמה'
             icon='fas fa-check-circle'
+          />
+
+          <Recaptcha 
+            ref={el => this.recaptcha = el}
+            sitekey={GOOGLE_RECAPTCHA_SITE_KEY}
+            onResolved={this.onCaptchaResolve}
+            locale="he"
           />
         </Form>
       </>

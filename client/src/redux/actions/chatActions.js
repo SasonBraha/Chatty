@@ -36,6 +36,7 @@ export const fetchRooms = () => async (dispatch, getState) => {
 export const fetchChatRoom = slug => async dispatch => {
   const chatRoom = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat/${slug}`);
   dispatch({ type: FETCH_CURRENT_ROOM, payload: chatRoom.data });
+  document.title = chatRoom.data.name;
 };
 
 export const newMessage = messageData => ({

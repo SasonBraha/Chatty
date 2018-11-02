@@ -1,11 +1,13 @@
 import { User } from '../models';
 import * as jwt from 'jsonwebtoken';
 import * as uuid from 'uuid';
+import * as rp from 'request-promise';
 import keys from '../config/keys';
 import registerValidator from '../utils/Validation/registerValidator';
 import registerDBValidator from '../utils/Validation/registerDBValidator';
 import { OAuth2Client } from 'google-auth-library';
 import { Router, Request, Response, NextFunction } from 'express';
+import { errorObject } from '../utils';
 
 const client = new OAuth2Client(keys.googleOAuthClientId);
 const router: Router = Router();
@@ -20,7 +22,11 @@ const router: Router = Router();
  */
 router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { displayName, email, password } = req.body;
+    const { displayName, email, password, recaptchaResponse } = req.body;
+    const captchaValidationError = errorObject(400, 'הייתה בעיה באימות האנושיות');
+
+    // Check If { recaptchaResponse } Exsits
+    if (!recaptchaResponse) return res.status(400).json(captchaValidationError);
 
     // Validate Registration Data
     const { errors, isValid } = registerValidator(req.body);
@@ -32,6 +38,18 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
       email
     );
     if (!dbIsValid) return res.status(400).json(dbErrors);
+
+    // Validate Captcha
+    const captchaVildation = await rp({
+      method: 'POST',
+      uri: 'https://www.google.com/recaptcha/api/siteverify',
+      qs: {
+        secret: keys.googleRecaptchaSecretKey,
+        response: recaptchaResponse
+      },
+      json: true
+    });
+    if (!captchaVildation.success) return res.status(400).json(captchaValidationError);
 
     await User.create({
       displayName,

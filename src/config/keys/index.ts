@@ -13,6 +13,7 @@ interface IKeys {
   baseUrl: string;
   googleOAuthClientId: string;
   googleOAuthClientSecret: string;
+  googleRecaptchaSecretKey: string;
 }
 
 const keys = process.env.NODE_ENV === 'production' ? keysProd : keysDev;

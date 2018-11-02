@@ -6,13 +6,16 @@ import { setToast } from './';
 import history from '../../resources/history'; 
 import { BASE_URL, ACCESS_TOKEN, LAST_URL_PATH, SIGN_IN_URL } from '../../resources/constants';
 
-export const registerUser = formData => async dispatch => {
+export const registerUser = (formData, captchaElement) => async dispatch => {
   try {
     await axios.post(`${BASE_URL}/auth/signup`, formData);
     history.push(SIGN_IN_URL);
     dispatch(setToast('נרשמת בהצלחה, כעת תוכל/י להתחבר'))
   } catch (ex) {
-    dispatch({ type: SET_FORM_ERRORS, payload: ex.response.data });
+    captchaElement.reset();
+    const { data } = ex.response;
+    if (data.error && data.error.code === 400) return dispatch(setToast(data.error.message));
+    dispatch({ type: SET_FORM_ERRORS, payload: data });
   }
 };
  
