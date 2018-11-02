@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import media from '../../utils/media';
+import media from '../../../resources/media';
 
 export const StyledActiveUsers = styled.div`
   padding: 0 2rem 0 2rem; 

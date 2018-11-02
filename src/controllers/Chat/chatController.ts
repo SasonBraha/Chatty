@@ -13,10 +13,10 @@ export default async (io, socket, userData) => {
       currentChatRoom = await Chat.findOne(
         {
           $or: [
-            { slug, status: 'public' },
+            { slug, isPrivate: false },
             {
               slug,
-              status: 'private',
+              isPrivate: true,
               allowedUsers: userData._id
             }
           ]
@@ -70,8 +70,8 @@ export default async (io, socket, userData) => {
           // Save File To S3
           await putObject(uploadAndFileData.uploadData);
 
-          // Emit To Client That File Saved
-          socket.emit('server:fileUploaded', { fileData: uploadAndFileData.fileData, uniqueFileId });
+          // Emit To All That File Saved
+          io.to(currentChatRoom.slug).emit('server:fileUploaded', { fileData: uploadAndFileData.fileData, uniqueFileId });
         }
       
         // Check If Chat Room Allows Message Storing

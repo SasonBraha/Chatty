@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { $mainColor } from '../../Ui/theme/variables';
+import { $mainColor } from '../../../resources/themeVariables';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setNavState } from '../../../redux/actions';

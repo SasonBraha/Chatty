@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Linkify from 'react-linkify';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -8,10 +8,6 @@ import he from 'date-fns/locale/he';
 import { S3_BUCKET_URL } from '../../../resources/constants';
 
 const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }) => {
-  const renderFileLoader = () => {
-    
-  }
-
   const renderFile = () => {
     return file && (
       <StyledFigure>

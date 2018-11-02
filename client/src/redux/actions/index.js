@@ -51,5 +51,6 @@ export {
   resetChatState,
   fetchPreviousMessages,
   setCreateRoomModalState,
-  fetchUserSuggestions
+  fetchUserSuggestions,
+  setUserSuggestor
 } from './chatActions';

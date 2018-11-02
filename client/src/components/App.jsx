@@ -6,7 +6,7 @@ import Routes from './Routes';
 import { Header, Nav } from './Layouts';
 import Container from './Container';
 import Toasts from './Toasts';
-import './Ui/theme/globalStyle';
+import '../resources/globalStyle';
 
 class App extends Component {
   constructor(props) {

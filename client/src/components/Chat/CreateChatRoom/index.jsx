@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Transition } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { setCreateRoomModalState, createChatRoom } from '../../../redux/actions';
-import './CreateChatRoom.css';
 
 class CreateChatRoom extends Component {
   state = {

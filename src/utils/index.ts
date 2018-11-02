@@ -13,11 +13,6 @@ export const translate = (phrase: string): Promise<string> => {
   });
 }
 
-// Conver Buffer To Base64 String
-export const toBase64String = (file: Buffer): string => {
-  return file ? Buffer.from(file).toString('base64') : null;
-}
-
 // Create Universal Error Object
 export const errorObject = (statusCode: number, errorMessage: string): object => {
   return {

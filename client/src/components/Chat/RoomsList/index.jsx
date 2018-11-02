@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchRooms, setCreateRoomModalState } from '../../../redux/actions';
 import { StyledRoomsList } from './RoomsList.style';
 import RoomsListItem from '../RoomsListItem';
-import UserTyping from '../UserTyping/UserTyping';
+import UserTyping from '../UserTyping';
 import RoomsListLoader from './RoomsList.loading';
 
 class RoomsList extends Component {
@@ -21,10 +21,6 @@ class RoomsList extends Component {
     const { chatRooms, urlSlug } = this.props;
     return (
       <StyledRoomsList>
-        {/* <div>
-          <i className="fas fa-users" />
-          <i className="fas fa-user-lock" />
-        </div> */}
         {
           Object.keys(chatRooms).length
             ? Object.values(chatRooms).map(({ name, slug, lastMessage }) => (

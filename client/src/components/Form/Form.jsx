@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import  { mainColor, success } from '../Ui/theme/variables';
+import  { mainColor, success } from '../../resources/themeVariables';
 import PropTypes from 'prop-types';
 
 const StyledForm = styled.form`

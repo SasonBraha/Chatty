@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setIsTyping, submitMessage, fetchUserSuggestions } from '../../../redux/actions';
+import { setIsTyping, submitMessage, fetchUserSuggestions, setUserSuggestor } from '../../../redux/actions';
 import AttachFile from '../AttachFile';
 import { StyledAddMessageContainer, StyledForm, typeAreaStyle, StyledSubmitMessage } from './AddMessage.style';
 import InputTrigger from 'react-input-trigger';
@@ -8,8 +8,7 @@ import UserSuggestor from '../UserSuggestor';
 
 class AddMessage extends Component {
   state = { 
-    typeAreaValue: '',
-    showSuggestor: false
+    typeAreaValue: ''
   }
 
   onInputChange = e => {
@@ -24,21 +23,21 @@ class AddMessage extends Component {
   }
 
   onMentionUser = triggerData => {
-    const { text } = triggerData;
-    this.state.showSuggestor && this.props.fetchUserSuggestions(text);
+    const { showUserSuggestor, fetchUserSuggestions } = this.props;
+    showUserSuggestor && fetchUserSuggestions(triggerData.text);
   }
 
   render() {
     return (
       <StyledAddMessageContainer>
-        { this.state.showSuggestor && <UserSuggestor /> }
+        <UserSuggestor />
         <AttachFile />
         <StyledForm onSubmit={this.handleSubmit}>
           <InputTrigger
             trigger={{ keyCode: 50, shiftKey: true }}
-            onStart={() => this.setState({ showSuggestor: true })}
+            onStart={() => this.props.setUserSuggestor(true)}
             onType={this.onMentionUser}
-            onCancel={() => this.setState({ showSuggestor: false })}
+            onCancel={() => this.props.setUserSuggestor(false)}
             style={{ flexGrow: 1 }}
           >
             <input
@@ -57,8 +56,9 @@ class AddMessage extends Component {
   }
 }
 
-const mapStateToProps = ({ chat: { isTyping } }) => ({ 
-  isTyping
+const mapStateToProps = ({ chat: { isTyping, showUserSuggestor } }) => ({ 
+  isTyping,
+  showUserSuggestor
 });
-export default connect(mapStateToProps, { setIsTyping, submitMessage, fetchUserSuggestions })(AddMessage);
+export default connect(mapStateToProps, { setIsTyping, submitMessage, fetchUserSuggestions, setUserSuggestor })(AddMessage);
 

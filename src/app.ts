@@ -17,6 +17,7 @@ import socketController from './controllers/socketController';
 import authRoutes from './routes/authRoutes';
 import chatRoutes from './routes/chatRoutes'; 
 import userRoutes from './routes/userRoutes';
+import managementRoutes from './routes/managementRoutes';
 import notificationRoutes from './routes/notificationRoutes'; 
 import trimmer from './utils/trimmer'; 
 import errorHandler from './handlers/errorHanlder'; 
@@ -68,6 +69,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/auth', authRoutes);  
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/management', managementRoutes);
 
 // Serve { index.html } In Production
 if (process.env.NODE_ENV === 'production') {

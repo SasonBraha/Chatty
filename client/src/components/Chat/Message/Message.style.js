@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components';
-import { shadowColor } from '../../Ui/theme/variables';
-import media from '../../utils/media';
+import { shadowColor } from '../../../resources/themeVariables';
+import media from '../../../resources/media';
 
 export const StyledMessageContainer = styled.div`
   margin-bottom: 1.5rem;
+  overflow: auto;
 `;
 
 export const StyledMessage = styled.div`
@@ -57,4 +58,5 @@ export const StyledImage = styled.img`
   max-height: 32rem;
   max-width: 100%;
   border-radius: .35rem;
+  border: .1rem solid #eee;
 `;

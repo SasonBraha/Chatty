@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
-import Profile from './Users/Profile/Profile';
+import Profile from './Users/Profile';
 import Chat from './Chat';
 import ChatLobby from './Chat/Lobby';
 import ErrorPage from './ErrorPage'

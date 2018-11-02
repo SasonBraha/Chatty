@@ -4,7 +4,7 @@ import { translate } from '../utils';
 import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
 import { IChat } from '../models/Chat';
-import createChatValidator from '../utils/Validation/createChatValidator';
+import * as uuid from 'uuid';
 import { Request, Response, Router, NextFunction } from 'express';
 const router: Router = Router();
 
@@ -15,7 +15,7 @@ const router: Router = Router();
  */
 router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const chatRooms = await Chat.find({ $or: [{ status: 'private', allowedUsers: req.user._id }, { status: 'public' }] }).sort({ updatedAt: -1 } ).lean();
+    const chatRooms = await Chat.find({ $or: [{ isPrivate: true, allowedUsers: req.user._id }, { isPrivate: false }] }).sort({ updatedAt: -1 } ).lean();
     res.json(chatRooms);
   } catch (ex) {
     next(`500 ${ex}`);
@@ -23,37 +23,22 @@ router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunct
 });
 
 /**
- * Create new chat room
  * @method POST
- * @api public
+ * @api private
+ * Create Chat Room
  */
 router.post('/', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Validate Form
-    // const { errors, isValid } = createChatValidator(req.body);
-    // if (!isValid) return res.status(400).json(errors);
-
-    const { name, status, storeMessages } = req.body;
-    // Create Chat Room
+    const { name, isPrivate, storeMessages } = req.body;
     const newChatRoom = await Chat.create({
       name,
-      status,
+      isPrivate,
       storeMessages,
-      slug: await translate(name)
+      slug: `${await translate(name)}-${uuid()}`
     });
     res.json(newChatRoom);
-  } catch (ex) {
-    // Check For Duplicate Chat Name
-    if (ex.code === 11000) {
-      res.status(409).json({
-        error: {
-          code: 409,
-          message: 'שם החדר תפוס'
-        }
-      });
-    } else {
-      next(new Error(`500 ${ex}`));
-    }
+  } catch(ex) {
+    next(new Error(`500 ${ex}`))
   }
 });
 
@@ -71,7 +56,7 @@ router.get('/:slug', requireAuth, async (req: Request, res: Response, next: Next
     if (!chatRoom) return next(new Error('404'));
     
     // Check For Permission To View Chat
-    if (chatRoom.status === 'private' && !chatRoom.allowedUsers.toString().includes(req.user._id)) {
+    if (chatRoom.isPrivate  && !chatRoom.allowedUsers.toString().includes(req.user._id)) {
       next(new Error('403'));
     } else {
       res.json(chatRoom);
@@ -93,7 +78,7 @@ router.get('/:chatId/:messageId', async (req: Request, res: Response, next: Next
     if (mongoose.Types.ObjectId.isValid(chatId) && mongoose.Types.ObjectId.isValid(messageId)) {
       const chatRoom: IChat = await Chat.findOne({ _id: chatId }).lean();
       // Check For Permission To View Messages
-      if (chatRoom.status === 'private' && !chatRoom.allowedUsers.toString().includes(req.user._id)) return next(new Error('403'));
+      if (chatRoom.isPrivate && !chatRoom.allowedUsers.toString().includes(req.user._id)) return next(new Error('403'));
       // Compose Old Messages Array
       const oldMessages = await Chat.aggregate([
         { $match: { _id: new ObjectID(chatId) } },

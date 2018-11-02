@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from "styled-components";
 import PropTypes from 'prop-types';
-import { err } from '../Ui/theme/variables';
+import { err } from '../../resources/themeVariables';
 
 const StyledInputRow = styled.div`
   margin-bottom: 2rem;

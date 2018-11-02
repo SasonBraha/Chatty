@@ -1,5 +1,5 @@
 import Header from './Header';
-import Nav from './Nav/Nav';
+import Nav from './Nav';
 
 export {
   Header,

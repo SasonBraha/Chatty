@@ -1,22 +1,44 @@
 import styled from 'styled-components';
 
 export const StyledContentPreview = styled.div`
-  height: 100%;
+  height: calc(100% - 8rem);
   width: 100%;
   display: flex;
   justify-content: center; 
   align-items: center;
-  background: rgba(0, 0, 0, .7);
-  color: white;
+  background: rgba(255, 255, 255, .9);
   position: absolute;
-  top: 0;
   right: 0;
+  top: 0;
   flex-direction: column;
+  transition: .5s cubic-bezier(0.6, 0.07, 0.07, 1.08);
+  z-index: 2;
+  transform: translateY(-100%);
+
+  &.entered {
+    transform: translateY(0);
+  }
 `;
 
 export const StyledImagePreview = styled.img`
   max-height: 70%;
   max-width: 70%;
-  border: .5rem solid white;
+  border: .3rem solid lightgray;
   border-radius: .3rem;
+`;
+
+export const StyledFileName = styled.div`
+  color: #444;
+`;
+
+export const StyledCloseIcon = styled.i`
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    color: gray;
+  }
 `;

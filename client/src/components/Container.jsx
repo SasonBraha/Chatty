@@ -24,17 +24,18 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    window.onresize = () => {
+    window.onresize = () => { 
       const isWidthOver992 = window.matchMedia('(min-width: 992px)').matches;
-      const isWidthLess992 = window.matchMedia('(max-width: 992px)').matches;
-      if (this.state.windowWidth < 992 && isWidthOver992) {
+      const isWidthLessThan992 = window.matchMedia('(max-width: 992px)').matches;
+      const { windowWidth } = this.state;
+      if (windowWidth < 992 && isWidthOver992) {
         this.setState({ windowWidth: 992 });
       }
 
-      if (this.state.windowWidth >= 992 && isWidthLess992) {
+      if (windowWidth >= 992 && isWidthLessThan992) {
         this.setState({ windowWidth: 0 });
       }
-    }
+    };
   }
 
   render() {
@@ -49,5 +50,12 @@ class Container extends Component {
   }
 }
 
-const mapStateToProps = ({ root: { nav: { isNavOpen } } }) => ({ isNavOpen });
-export default connect(mapStateToProps, null)(Container);
+const mapStateToProps = ({
+  root: {
+    nav: { isNavOpen }
+  }
+}) => ({ isNavOpen });
+export default connect(
+  mapStateToProps,
+  null
+)(Container);

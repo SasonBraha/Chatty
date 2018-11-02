@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Dropdown from '../../Dropdown';
-import List from '../../List/List';
+import List from '../../List';
 import ListItem from '../../List/ListItem';
 import { setHeaderDropdown, removeUserCredentials } from '../../../redux/actions';
 

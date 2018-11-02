@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { newMessage, fetchPreviousMessages } from '../../../redux/actions';
-import Message from '../Message/Message';
+import Message from '../Message';
 import { StyledMessagesList } from './MessagesList.style';
 import MessagesListLoader from './MessagesList.loading';
 
@@ -55,11 +55,11 @@ class MessagesList extends Component {
     return (
       <StyledMessagesList
         onScroll={this.handleScroll}
-        innerRef={el => (this.messagesListContainer = el)}
+        innerRef={el => this.messagesListContainer = el}
       >
         {
           messages.length
-            ? messages.map((message, i) => <Message key={i} message={message} />)
+          ? messages.map((message, i) => <Message key={i} message={message} />)
             : this.renderLoader()
         }
         <div id="viewEnd" ref={el => (this.viewEnd = el)} />

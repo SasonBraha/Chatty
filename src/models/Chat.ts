@@ -13,7 +13,7 @@ interface IMessage {
 export interface IChat extends Document {
   name: string;
   slug: string;
-  status: "public" | "private";
+  isPrivate: boolean;
   storeMessages: boolean;
   moderators: ObjectID[];
   allowedUsers: ObjectID[];
@@ -50,10 +50,9 @@ export default model<IChat>('Chat', new Schema({
     trim: true,
     unique: true
   },
-  status: {
-    type: String,
-    enum: ['public', 'private'],
-    default: 'public'
+  isPrivate: {
+    type: Boolean,
+    default: false
   },
   storeMessages: {
     type: Boolean,

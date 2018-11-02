@@ -12,7 +12,8 @@ import {
   UNSHIFT_PREVIOUS_MESSAGES,
   SET_IS_MORE_PREVIOUS_MESSAGES,
   SET_CREATE_ROOM_MODAL_STATE,
-  FETCH_USER_SUGGESTIONS
+  FETCH_USER_SUGGESTIONS,
+  SET_USER_SUGGESTOR
 } from '../constants';
 import { httpRequestInProgress, setToast } from './'; 
 import axios from 'axios';
@@ -54,6 +55,9 @@ export const updateTypingUsers = (action, displayName) => dispatch => {
 };
 
 export const handleFileUpload = file => dispatch => {
+  // Check For Null Value
+  if (file === null) return dispatch({ type: SET_FILE, payload: null });
+
   const maxFileSize = 5000; // KB
   const allowedFileTypes = [
     'jpg', 'jpeg',
@@ -143,3 +147,8 @@ export const fetchUserSuggestions = displayName => dispatch => {
     }
   }, 400)
 }
+
+export const setUserSuggestor = boolean => ({
+  type: SET_USER_SUGGESTOR,
+  payload: boolean
+});

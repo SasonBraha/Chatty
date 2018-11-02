@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import List from '../List/List';
+import List from '../List';
 import ListItem from '../List/ListItem';
 
 const StyledUserSuggestor = styled.div`
@@ -15,27 +15,25 @@ const StyledUserSuggestor = styled.div`
   box-shadow: 0 -.3rem .4rem rgba(0, 0, 0, .07);
 `;
 
-class UserSuggestor extends Component {
-  render() {
-    return (
-      <StyledUserSuggestor>
-        <List color="black">
-          {
-            this.props.suggestedUsers.map(user => (
-              <ListItem 
-                to="/" 
-                image={user.avatar} 
-                body={user.displayName}
-                backgroundOnHover="dark"
-                key={user._id} 
-              />
-            ))
-          }
-        </List>
-      </StyledUserSuggestor>
-    );
-  }
-}
+const UserSuggestor = ({ suggestedUsers, showUserSuggestor }) => (
+  showUserSuggestor && (
+    <StyledUserSuggestor>
+      <List color="black">
+        {
+          suggestedUsers.map(user => (
+            <ListItem 
+              to="/" 
+              image={user.avatar} 
+              body={user.displayName}
+              backgroundOnHover="dark"
+              key={user._id} 
+            />
+          ))
+        }
+      </List>
+    </StyledUserSuggestor>
+  )
+);
 
-const mapStateToProps = ({ chat: { suggestedUsers } }) => ({ suggestedUsers });
+const mapStateToProps = ({ chat: { suggestedUsers, showUserSuggestor } }) => ({ suggestedUsers, showUserSuggestor });
 export default connect(mapStateToProps, null)(UserSuggestor);

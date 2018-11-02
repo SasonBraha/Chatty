@@ -1,5 +1,5 @@
 import React from 'react';
-import RoomsList from './RoomsList/RoomsList';
+import RoomsList from './RoomsList';
 import requireAuth from '../Hoc/requireAuth';
 import Helmet from 'react-helmet';
 

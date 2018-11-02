@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { shadowColor } from '../../Ui/theme/variables';
+import { shadowColor } from '../../../resources/themeVariables';
 
 export const StyledAddMessageContainer = styled.div`
   display: flex;

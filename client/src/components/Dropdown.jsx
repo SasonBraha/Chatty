@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { shadowColor } from './Ui/theme/variables';
+import { shadowColor } from '../resources/themeVariables';
 import { resetDropdown } from '../redux/actions';
 import { connect } from 'react-redux';
 

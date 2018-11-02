@@ -8,14 +8,7 @@ export const StyledRoom = styled.div`
   flex-grow: 1;
 `;
 
-export const StyledMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-`;
-
-export const StyledChooseARoom = styled.div` 
+export const StyledChooseARoom = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
