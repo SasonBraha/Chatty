@@ -2,7 +2,7 @@
 
 Chat App Built With Node, Express, MongoDB, Redis, SocketIO, React And Redux
 
-![screenshot_4](https://user-images.githubusercontent.com/30155843/47259628-92fc2500-d4b4-11e8-967d-c00b471576d6.png)
+![screenshot_4](https://user-images.githubusercontent.com/30155843/47954015-d2834080-df8d-11e8-99ca-3dec9fed2985.png)
 
 ## Disclaimer
 
