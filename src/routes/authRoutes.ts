@@ -32,13 +32,6 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
     const { errors, isValid } = registerValidator(req.body);
     if (!isValid) return res.status(400).json(errors);
 
-    // Check For Username & Email Availablity
-    const { errors: dbErrors, isValid: dbIsValid } = await registerDBValidator(
-      displayName,
-      email
-    );
-    if (!dbIsValid) return res.status(400).json(dbErrors);
-
     // Validate Captcha
     const captchaVildation = await rp({
       method: 'POST',
@@ -61,7 +54,7 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
     });
     res.json('נרשמת בהצלחה, כעת תוכל להתחבר עם הפרטים שהזנת');
   } catch (ex) {
-    next(`500 ${ex}`);
+    next(new Error(ex));
   }
 });
 
@@ -97,7 +90,7 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
     const accessToken = await jwt.sign(userData, keys.jwtSecret, { expiresIn: '7d' });
     res.json(`Bearer ${accessToken}`);
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 });
 
@@ -137,7 +130,7 @@ router.post('/google', async (req: Request, res: Response, next: NextFunction) =
     const accessToken = await jwt.sign(userData.toObject(), keys.jwtSecret, { expiresIn: '7d' });
     res.json(`Bearer ${accessToken}`);
   } catch (ex) {
-    next(new Error(`500 ${ex}`))
+    next(new Error(ex))
   }
 });
 

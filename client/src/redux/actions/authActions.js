@@ -48,12 +48,6 @@ export const setUserCredentials = () => dispatch => {
     if (accessToken) {
       // Set Authorization Header
       axios.defaults.headers.common['Authorization'] = accessToken;
-      // Handle Invalid Tokens
-      axios.interceptors.response.use(null, error => {
-        if (error.response.status === 401) {
-          dispatch(removeUserCredentials(SIGN_IN_URL));
-        }
-      })
       // Set User Data To Store
       dispatch({ type: SET_USER_CREDENTIALS, payload: jwtDecode(accessToken) });
     } else {

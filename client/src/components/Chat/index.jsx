@@ -3,7 +3,6 @@ import Room from './Room';
 import RoomsList from './RoomsList';
 import { connect } from 'react-redux';
 import requireAuth from '../Hoc/requireAuth';
-import CreateChatRoom from './CreateChatRoom';
 import socket from '../../resources/socket';
 import { S3_BUCKET_URL } from '../../resources/constants';
 import {
@@ -66,7 +65,6 @@ class Chat extends Component {
       <div style={{ display: 'flex', height: '100%' }}>
         <RoomsList />
         <Room />
-        <CreateChatRoom />
       </div>
     );
   }

@@ -6,7 +6,7 @@ export const StyledContentPreview = styled.div`
   display: flex;
   justify-content: center; 
   align-items: center;
-  background: rgba(255, 255, 255, .9);
+  background: white;
   position: absolute;
   right: 0;
   top: 0;
@@ -36,9 +36,10 @@ export const StyledCloseIcon = styled.i`
   right: 1.5rem;
   top: 1rem;
   cursor: pointer;
-  transition: .3s;
+  transition: .2s;
+  color: #2F353C;
 
   &:hover {
-    color: gray;
+    color: #5a5757;
   }
 `;

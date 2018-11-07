@@ -1,20 +1,32 @@
 import * as uuid from 'uuid';
 import validateFile from '../../utils/Validation/validateFile';
 import keys from '../keys';
-import { s3 } from './s3Config'; 
-import { IFile } from '../../models/File';
+import { s3 } from './s3Config';
+import logger from '../../handlers/logHandler';
 
-export async function getUploadAndFileData(file: Buffer, refrence: string) {
-  try {
-    if (!file) return { uploadData: null, fileData: null };
-    const { fileExtension, mimeType, dimensions: { height, width } } = await validateFile(file);
+interface IFileData {
+  type: string;
+  link: string;
+  dimensions: {
+    height: number;
+    width: number;
+  }
+}
+
+export function putObject(file: Buffer, reference: string, maxFileSize: number = 5000): Promise<IFileData | null> {
+  if (!file) return null;
+  return new Promise(async (resolve, reject) => {
+    // Validate File { type, size }
+    const { fileExtension, mimeType, dimensions: { height, width } } = await validateFile(file, maxFileSize);
+  
     const uploadData = {
-      Key: `${refrence}/${uuid()}.${fileExtension}`,
+      Key: `${reference}/${uuid()}.${fileExtension}`,
       Bucket: keys.s3Bucket,
       Body: file,
-      ContentEncoding: 'base64', 
-      ContentType: mimeType  
-    }
+      ContentEncoding: 'base64',
+      ContentType: mimeType
+    };
+  
     const fileData = {
       type: fileExtension,
       link: uploadData.Key,
@@ -22,23 +34,18 @@ export async function getUploadAndFileData(file: Buffer, refrence: string) {
         height,
         width
       }
-    }
-    return { 
-      uploadData, 
-      fileData: fileData
     };
-  } catch (ex) {
-    console.log(ex)
-  }
+
+    s3.putObject(uploadData, err => err ? reject(err) : resolve(fileData));
+  });
 }
 
-
-export async function putObject(uploadData) { 
-  try {
-    return new Promise((resolve, reject) => {
-      s3.putObject(uploadData, err => err ? reject(err) : resolve())
-    });
-  } catch (ex) {
-    console.log(ex)
-  }
+export async function getSignedUrl({ fileExtension, mimeType }) {
+  const params = {
+    Bucket: keys.s3Bucket,
+    Key: `${uuid()}.${fileExtension}`,
+    ContentType: mimeType
+  };
+  const postUrl = s3.getSignedUrl('putObject', params);
+  return Promise.resolve({ key: params.Key, postUrl });
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import  { mainColor, success } from '../../resources/themeVariables';
 import PropTypes from 'prop-types';
+import GoogleSignIn from '../Auth/GoogleSignIn';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -20,7 +21,7 @@ const StyledForm = styled.form`
 
   legend {
     font-size: 3rem;
-    margin-bottom: 2rem;
+    margin-bottom: ${({ withGoogleSignIn }) => withGoogleSignIn ? 0 : '2rem'};
     letter-spacing: -.1rem;
     font-weight: 100;
 
@@ -53,12 +54,13 @@ const StyledForm = styled.form`
 `;
 
 const Form = props => {
-  const { legendValue, icon, buttonValue, children } = props;
+  const { legendValue, icon, buttonValue, children, withGoogleSignIn } = props;
   return (
-    <StyledForm onSubmit={props.onSubmit}>
+    <StyledForm onSubmit={props.onSubmit} withGoogleSignIn={withGoogleSignIn}>
       <div className="header">
         <i className={icon}></i>
         <legend>{legendValue}</legend>
+        {withGoogleSignIn && <GoogleSignIn />}
       </div>
       {children}
       <button formNoValidate type='submit'>{buttonValue}</button>

@@ -19,6 +19,7 @@ import chatRoutes from './routes/chatRoutes';
 import userRoutes from './routes/userRoutes';
 import managementRoutes from './routes/managementRoutes';
 import notificationRoutes from './routes/notificationRoutes'; 
+import uploadRoutes from './routes/uploadRoutes';
 import trimmer from './utils/trimmer'; 
 import errorHandler from './handlers/errorHanlder'; 
 
@@ -31,7 +32,7 @@ export const io = socketIO(server);
 //  DB Config & Connection            //
 //------------------------------------//
 mongoose.set('useCreateIndex', true);
-mongoose.connect(keys.mongoUri, { useNewUrlParser: true }).catch(ex => { throw Error(ex) });
+mongoose.connect(keys.mongoUri, { useNewUrlParser: true, useFindAndModify: false }).catch(ex => { throw Error(ex) });
 
 //------------------------------------//
 //  Middlewares                       //
@@ -54,6 +55,7 @@ io.use(socketioJwt.authorize({
 app.use(compression());
 
 // Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Trim All { <req.body> }
@@ -70,6 +72,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/auth', authRoutes);  
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/management', managementRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Serve { index.html } In Production
 if (process.env.NODE_ENV === 'production') {

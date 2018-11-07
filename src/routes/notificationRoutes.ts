@@ -13,7 +13,7 @@ router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunct
     const notifications = await Notification.find({ receiver: req.user._id }).limit(10).sort({ createdAt: -1 });
     res.json(notifications); 
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   } 
 });
 
@@ -27,7 +27,7 @@ router.get('/unseen', requireAuth, async (req: Request, res: Response, next: Nex
     const unseenNotificationsCount = await Notification.countDocuments({ isSeen: false, receiver: req.user._id });
     res.json(unseenNotificationsCount);
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 }); 
 

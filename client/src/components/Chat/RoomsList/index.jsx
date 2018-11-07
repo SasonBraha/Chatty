@@ -23,11 +23,12 @@ class RoomsList extends Component {
       <StyledRoomsList>
         {
           Object.keys(chatRooms).length
-            ? Object.values(chatRooms).map(({ name, slug, lastMessage }) => (
+            ? Object.values(chatRooms).map(({ name, slug, lastMessage, image }) => (
                 <RoomsListItem
                   key={slug}
                   slug={slug}
                   roomName={name}
+                  image={image}
                   lastMessage={lastMessage}
                   selected={urlSlug === slug}
                 />

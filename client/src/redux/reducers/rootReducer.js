@@ -32,6 +32,7 @@ const initialState = {
   header: {
     brand: 'Chatty',
     isHeaderDropdownOpen: false,
+    isAuthActionsOpen: true
   },
   form: {
     errors: {}

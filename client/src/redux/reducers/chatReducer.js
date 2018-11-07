@@ -24,6 +24,7 @@ const initialState = {
   isTyping: false,
   file: null,
   currentChatRoom: {},
+  isFetched: false,
   urlSlug: '',
   suggestedUsers: [],
   showUserSuggestor: false,
@@ -40,23 +41,20 @@ export default (state = initialState, action) => {
         ? { ...state }
         : { 
             ...initialState, 
-            chatRooms: 
-            state.chatRooms, 
+            chatRooms: state.chatRooms, 
             urlSlug: urlSlugFromRouter || '' 
           };
 
     case FETCH_ROOMS:
       return {
         ...state,
-        chatRooms: action.payload.data.reduce(
-          (acc, chatRoom) => Object.assign(acc, { [chatRoom.slug]: chatRoom }),
-          {}
-        )
+        chatRooms: action.payload.data.reduce((acc, chatRoom) => Object.assign(acc, { [chatRoom.slug]: chatRoom }), {})
       };
 
     case FETCH_CURRENT_ROOM:
       return {
         ...state,
+        isFetched: true,
         currentChatRoom: {
           ...action.payload
         },

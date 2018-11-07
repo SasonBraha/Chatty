@@ -11,6 +11,7 @@ import {
   FETCH_NOTIFICATIONS
 } from '../constants';
 import axios from 'axios'; 
+import { BASE_URL } from '../../resources/constants';
 
 // Control Nav State
 export const setNavState = () => ({
@@ -52,7 +53,7 @@ export const httpRequestInProgress = bool => ({
 // Fetch Unseen Notifications Count
 export const fetchUnseenNotificationsCount = () => ({
   type: FETCH_UNSEEN_NOTIFICATIONS_COUNT,
-  payload: axios.get(`${process.env.REACT_APP_BASE_URL}/notifications/unseen`)
+  payload: axios.get(`${BASE_URL}/notifications/unseen`)
 });
 
 // Set Notification Dropdown && Fetch Notifications
@@ -62,7 +63,7 @@ export const setNotificationsDropdown = () => async (dispatch, getState) => {
   const { root: { notifications: { items } } } = getState();
   // Fetch Notifications
   if (!items.length) {
-    dispatch({ type: FETCH_NOTIFICATIONS, payload: axios.get(`${process.env.REACT_APP_BASE_URL}/notifications`) })
+    dispatch({ type: FETCH_NOTIFICATIONS, payload: axios.get(`${BASE_URL}/notifications`) })
   }
 }
 

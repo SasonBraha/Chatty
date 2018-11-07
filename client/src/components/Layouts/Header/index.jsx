@@ -38,14 +38,14 @@ const Header = props => {
       <NavButton onClick={setNavState} />
       <StyledBrand to="/">{brand}</StyledBrand>
       <HttpLoader color="white" dimensions="3.2rem" />
-      {
-        isAuthenticated && (
-          <StyledHeaderOptions>
-            <Notifications />
-            <ProfileDropdown />
-          </StyledHeaderOptions>
-        )
-      }
+        {
+          isAuthenticated && (
+            <StyledHeaderOptions>
+              <Notifications />
+              <ProfileDropdown />
+            </StyledHeaderOptions>
+          )
+        }
     </StyledHeader>
   );
 };

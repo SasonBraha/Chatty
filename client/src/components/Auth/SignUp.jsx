@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/actions';
-import Form from '../Form/Form';
+import Form from '../Form';
 import Field from '../Form/Field';
-import Helmet from 'react-helmet'; 
+import Helmet from 'react-helmet';  
 import guestOnly from '../Hoc/guestOnly'; 
 import Recaptcha from 'react-google-invisible-recaptcha';
 import { GOOGLE_RECAPTCHA_SITE_KEY } from '../../resources/constants';
-
+ 
 class Register extends Component {
   state = {
     values: {
@@ -55,6 +55,7 @@ class Register extends Component {
           icon='fa fa-user-circle fa-5x'
           buttonValue='הרשמה' 
           onSubmit={this.handleSubmit}
+          withGoogleSignIn
         >
           <Field 
             name='displayName'

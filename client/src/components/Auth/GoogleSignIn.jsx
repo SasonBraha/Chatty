@@ -7,7 +7,7 @@ import { googleOAuthLogin } from '../../redux/actions';
 const StyledGoogleLogin = styled(GoogleLogin)`
   padding: 1rem 2rem;
   text-align: center;
-  background: white;
+  background: #ebebeb;
   color: black; 
   border-radius: 0.5rem;
   margin-top: 0.7rem;
@@ -20,6 +20,8 @@ const StyledGoogleLogin = styled(GoogleLogin)`
   outline: none;
   transition: .3s;
   box-shadow: 0 0 .3rem .3rem transparent;
+  width: 100%;
+  margin-bottom: 1.5rem;
 
   &:hover {
     box-shadow: 0 0 .3rem .3rem rgba(66,133,244,.3);
@@ -32,7 +34,7 @@ const GoogleSignIn = ({ isAuthenticated, googleOAuthLogin }) => (
     <StyledGoogleLogin 
       clientId="369239279158-k28b4o5imb0v4mqgd7q89dctderrg4gt.apps.googleusercontent.com"
       onSuccess={googleOAuthLogin}
-      onFailure={_ => console.log(_)}
+      onFailure={_ => null}
     >
       <svg
         version="1.1"

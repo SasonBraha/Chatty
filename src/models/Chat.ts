@@ -7,12 +7,20 @@ interface IMessage {
   body: string;
   image: string;
   file: IFile;
-  createdBy: IUser;
+  createdBy: {
+    _id: string;
+    displayName: string;
+    slug: string;
+  };
 }
 
 export interface IChat extends Document {
   name: string;
   slug: string;
+  image: {
+    link: string,
+    isUploaded: boolean
+  };
   isPrivate: boolean;
   storeMessages: boolean;
   moderators: ObjectID[];
@@ -38,7 +46,8 @@ const Message = new Schema({
   }
 }, { timestamps: true });
 
-export default model<IChat>('Chat', new Schema({
+
+const ChatSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -48,7 +57,21 @@ export default model<IChat>('Chat', new Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true
+    validate: {
+      validator: async slug => await Chat.doesntExist({ slug }),
+      message: () => 'שם החדר שבחרת תפוס, אנא בחר/י שם אחר'
+    }
+  },
+  image: {
+    link: {
+      type: String,
+      trim: true,
+      default: '/images/default_chat.svg',
+    },
+    isUploaded: {
+      type: Boolean,
+      default: false
+    }
   },
   isPrivate: {
     type: Boolean,
@@ -73,6 +96,14 @@ export default model<IChat>('Chat', new Schema({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User', 
+    required: true
   },
   lastMessage: String
-}, { timestamps: true, collection: 'chatRooms' }));
+}, { timestamps: true, collection: 'chatRooms' });
+
+ChatSchema.statics.doesntExist = async function(opts) {
+  return await this.where(opts).countDocuments() === 0;
+}
+
+const Chat = model<IChat>('Chat', ChatSchema);
+export default Chat;

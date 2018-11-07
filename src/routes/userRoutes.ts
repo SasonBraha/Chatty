@@ -20,7 +20,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
     res.json(users);
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 });
 
@@ -38,7 +38,7 @@ router.get('/:slug', async (req: Request, res: Response, next: NextFunction) => 
       next(new Error('404'));
     }
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 });
 

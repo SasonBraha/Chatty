@@ -18,23 +18,37 @@ import {
 import { httpRequestInProgress, setToast } from './'; 
 import axios from 'axios';
 import socket from '../../resources/socket';
+import { BASE_URL } from '../../resources/constants';
 
-export const createChatRoom = data => dispatch => {
-  axios
-    .post(`${process.env.REACT_APP_BASE_URL}/chat`, data)
-    .then(createdChatRoom => console.log(createdChatRoom));
+export const createChatRoom = formValues => async _ => {
+  try {
+    const formData = new FormData();
+    // Append Form Values To Form Data
+    Object.keys(formValues).forEach(key => formData.append(key, formValues[key]));
+    
+    // Create Chat
+    const newRoom = await axios.post(`${BASE_URL}/chat`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    window.location.href = `/chat/${newRoom.data.slug}`;
+
+  } catch (ex) {
+    throw ex;
+  }
 };
 
 export const fetchRooms = () => async (dispatch, getState) => {
-  const {
-    chat: { chatRooms }
-  } = getState();
-  !Object.keys(chatRooms).length &&
-    dispatch({ type: FETCH_ROOMS, payload: axios.get(`${process.env.REACT_APP_BASE_URL}/chat`) });
+  const { chat: { chatRooms } } = getState();
+  if (!Object.keys(chatRooms).length) {
+    dispatch({ type: FETCH_ROOMS, payload: axios.get(`${BASE_URL}/chat`) });
+  }
 };
 
 export const fetchChatRoom = slug => async dispatch => {
-  const chatRoom = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat/${slug}`);
+  const chatRoom = await axios.get(`${BASE_URL}/chat/${slug}`);
   dispatch({ type: FETCH_CURRENT_ROOM, payload: chatRoom.data });
   document.title = chatRoom.data.name;
 };
@@ -50,9 +64,7 @@ export const updateActiveUsers = userList => ({
 });
 
 export const updateTypingUsers = (action, displayName) => dispatch => {
-  const actionType =
-    action === 'addUser' ? ADD_TYPING_USER : REMOVE_TYPING_USER;
-  dispatch({ type: actionType, payload: displayName });
+  dispatch({ type: action === 'addUser' ? ADD_TYPING_USER : REMOVE_TYPING_USER, payload: displayName });
 };
 
 export const handleFileUpload = file => dispatch => {
@@ -76,6 +88,7 @@ export const handleFileUpload = file => dispatch => {
   dispatch({ type: SET_FILE, payload: file })
 };
 
+// Emit Typing
 let isTypingTimeout;
 export const setIsTyping = () => (dispatch, getState) => {
   const { chat: { isTyping } } = getState();
@@ -92,6 +105,7 @@ export const setIsTyping = () => (dispatch, getState) => {
   }
 };
 
+// Submit Message
 export const submitMessage = body => async (dispatch, getState) => {
   const { chat: { file } } = getState();
   socket.emit('client:newMessage', { body, file });
@@ -102,23 +116,21 @@ export const resetChatState = () => ({
   type: RESET_CHAT_STATE
 });
 
-export const fetchPreviousMessages = (chatId, messageId) => async (
-  dispatch,
-  getState
-) => {
+export const fetchPreviousMessages = (chatId, messageId) => async (dispatch, getState) => {
   try {
-    const {
-      chat: { isFetchingPreviousMessages, isMorePreviousMessages }
-    } = getState();
+    const { chat: { isFetchingPreviousMessages, isMorePreviousMessages } } = getState();
+    // Check If There's More Previous Messages && Not Currently Fetching
     if (!isFetchingPreviousMessages && isMorePreviousMessages) {
+      // Set Currently Fetching
       dispatch({ type: SET_IS_FETCHING_PREVIOUS_MESSAGES });
       dispatch(httpRequestInProgress(true));
-      const PreviousMessages = await axios.get(`${process.env.REACT_APP_BASE_URL}/chat/${chatId}/${messageId}`);
-      if (PreviousMessages.data.length) {
-        dispatch({
-          type: UNSHIFT_PREVIOUS_MESSAGES,
-          payload: PreviousMessages.data
-        });
+      // Fetch Messages
+      const previousMessages = await axios.get(`${BASE_URL}/chat/${chatId}/${messageId}`);
+      // If Messages
+      if (previousMessages.data.length) {
+        // Add Messages To Store
+        dispatch({ type: UNSHIFT_PREVIOUS_MESSAGES, payload: previousMessages.data });
+        // Set Currently Fetching
         dispatch({ type: SET_IS_FETCHING_PREVIOUS_MESSAGES });
       } else {
         dispatch({ type: SET_IS_MORE_PREVIOUS_MESSAGES, payload: false });
@@ -127,7 +139,8 @@ export const fetchPreviousMessages = (chatId, messageId) => async (
       dispatch(httpRequestInProgress(false));
     }
   } catch (ex) {
-    console.log(ex);
+    dispatch(httpRequestInProgress(false));
+    throw ex;
   }
 };
 
@@ -143,7 +156,7 @@ export const fetchUserSuggestions = displayName => dispatch => {
     if (displayName.trim().length) {
       dispatch({
         type: FETCH_USER_SUGGESTIONS,
-        payload: axios.get(`${process.env.REACT_APP_BASE_URL}/users?displayName=${displayName}&limit=5`)
+        payload: axios.get(`${BASE_URL}/users?displayName=${displayName}&limit=5`)
       });
     }
   }, 400)
@@ -153,3 +166,4 @@ export const setUserSuggestor = boolean => ({
   type: SET_USER_SUGGESTOR,
   payload: boolean
 });
+

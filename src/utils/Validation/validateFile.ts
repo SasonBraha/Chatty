@@ -13,8 +13,8 @@ interface IFileData {
   }
 }
 
-export default (file: Buffer): Promise<IFileData> => {
-  const maxFileSize = 5000; // KB
+export default (file: Buffer, maxFileSizeInKb: number): Promise<IFileData> => {
+  const maxFileSize = maxFileSizeInKb; // KB
   const allowedFileExtensions = [
     'jpg', 'jpeg',
     'png', 'gif',

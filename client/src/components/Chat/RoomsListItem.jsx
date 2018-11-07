@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { S3_BUCKET_URL } from '../../resources/constants';
 
 const StyledRoomListItem = styled(Link)`
   display: block;  
@@ -37,11 +38,11 @@ const StyledLastMessage = styled.div`
   white-space: nowrap;
 `;
 
-const RoomsListItem = ({ slug, selected, roomName, lastMessage }) => (
+const RoomsListItem = ({ slug, selected, roomName, lastMessage, image }) => (
   <StyledRoomListItem to={`/chat/${slug}`} key={slug} selected={selected}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <figure>
-        <StyledImage src="/images/default_profile.svg" />
+        <StyledImage src={image.isUploaded ? `${S3_BUCKET_URL}/${image.link}` : image.link} />
       </figure>
       <div style={{ marginRight: '.7rem', transform: 'translateY(-.35rem)', overflow: 'hidden' }}>
         <StyledName>{roomName}</StyledName> 

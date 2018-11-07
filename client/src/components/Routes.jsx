@@ -7,6 +7,7 @@ import Chat from './Chat';
 import ChatLobby from './Chat/Lobby';
 import ErrorPage from './ErrorPage'
 import ManageChat from './Admin/ManageChat';
+import CreateChatRoom from './Chat/CreateChatRoom';
 
 const Routes = () => (
   <Switch>
@@ -16,6 +17,7 @@ const Routes = () => (
     <Route exact path="/users/:slug" component={Profile} />
     <Route exact path="/chat" component={ChatLobby} />
     <Route exact path="/chat/:slug" component={Chat} />
+    <Route exact path="/create" component={CreateChatRoom} />
     <Route exact path="/admin/chat" component={ManageChat} />
     <Route render={() => (
       <ErrorPage statusCode={404} />

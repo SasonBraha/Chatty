@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Form from '../Form/Form';
+import Form from '../Form';
 import Field from '../Form/Field';
 import { loginUser } from '../../redux/actions';
 import guestOnly from '../Hoc/guestOnly';
@@ -32,6 +32,7 @@ class Login extends Component {
           icon='fa fa-user-circle fa-5x'
           buttonValue='התחברות' 
           onSubmit={this.handleSubmit}
+          withGoogleSignIn
         >
           <Field
             labelValue='שם משתמש / דואר אלקטרוני'

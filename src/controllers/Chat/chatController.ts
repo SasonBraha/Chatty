@@ -1,11 +1,11 @@
 import Store from './Store';
 import { Chat } from '../../models';
-import { putObject, getUploadAndFileData } from '../../config/s3/s3.methods'; 
+import { putObject } from '../../config/s3/s3.methods'; 
 import * as uuid from 'uuid';
 
 const store = new Store();
 
-export default async (io, socket, userData) => {
+export default (io, socket, userData) => {
   let currentChatRoom = null;
   socket
     // Handle Join Room
@@ -20,9 +20,8 @@ export default async (io, socket, userData) => {
               allowedUsers: userData._id
             }
           ]
-        },
-        { messages: { $slice: 0 } }
-      ).select('+messages');
+        }
+      );
       if (!currentChatRoom) return;
       store.addUser(slug, userData, updatedUserList => {
         socket
@@ -35,14 +34,15 @@ export default async (io, socket, userData) => {
     })
 
     // Handle Leave Room
-    .on('client:leaveChatRoom', async () => {
+    .on('client:leaveChatRoom', () => {
       if (currentChatRoom) {
         const { slug } = currentChatRoom;
         store.removeUser(slug, userData, updatedUserList => {
-          socket.leave(slug);
-          socket.broadcast
-            .to(slug)
-            .emit('server:updateUserList', updatedUserList);
+          socket
+            .leave(slug)
+            .broadcast
+              .to(slug)
+              .emit('server:updateUserList', updatedUserList);
           currentChatRoom = null;
         });
       }
@@ -52,15 +52,14 @@ export default async (io, socket, userData) => {
     .on('client:newMessage', async ({ body, file }, cb) => {
       if (!body.length) return;
       if (currentChatRoom) {
-        // Get Pre Upload File Data //! Both { uploadData, fileData } Are Null If No File
-        const uploadAndFileData = await getUploadAndFileData(file, currentChatRoom.slug);
         const uniqueFileId = uuid();
+        let fileData = null;
 
         // Emit New Message
         io.to(currentChatRoom.slug).emit('server:newMessage', {
           createdBy: userData,
           body,
-          file: uploadAndFileData.fileData ? { uniqueFileId } : null,
+          file: file ? { uniqueFileId } : null,
           createdAt: new Date()
         });
         typeof cb === 'function' && cb();
@@ -68,26 +67,27 @@ export default async (io, socket, userData) => {
         // Save File If Exsits
         if (file) {
           // Save File To S3
-          await putObject(uploadAndFileData.uploadData);
+          fileData = await putObject(file, currentChatRoom.slug, 5000);
 
-          // Emit To All That File Saved
-          io.to(currentChatRoom.slug).emit('server:fileUploaded', { fileData: uploadAndFileData.fileData, uniqueFileId });
+          // Emit File Saved
+          io.to(currentChatRoom.slug).emit('server:fileUploaded', { fileData, uniqueFileId });
         }
-      
+       
         // Check If Chat Room Allows Message Storing
-        if (currentChatRoom && currentChatRoom.storeMessages) {
-          currentChatRoom.lastMessage = body;
-          currentChatRoom.messages.push({
-            body,
-            createdBy: {
-              _id: userData._id,
-              displayName: userData.displayName,
-              slug: userData.slug
-            },
-            file: uploadAndFileData.fileData
-          });
-          await currentChatRoom.save();
-        }
+        await Chat.findOneAndUpdate({ slug: currentChatRoom.slug, storeMessages: true }, {
+          $push: {
+            messages: {
+              body,
+              createdBy: {
+                _id: userData._id,
+                displayName: userData.displayName,
+                slug: userData.slug,
+              }, 
+              file: fileData
+            }
+          },
+          $set: { lastMessage: body }
+        });
       }
     })
 

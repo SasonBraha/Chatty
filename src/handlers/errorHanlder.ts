@@ -10,7 +10,8 @@ const errorMessages = {
 } 
  
 export default (error: Error, req: Request, res: Response, next: NextFunction) => {
-  const errorCode: number = parseInt(error.message.split(' ')[0]) || 500; 
+  const isErrorInt = Number.isInteger(parseInt(error.message));
+  const errorCode = !isErrorInt ? 500 : parseInt(error.message);
   if (errorCode === 500) logger.log('error', error.stack);
 
   res.status(errorCode).json({

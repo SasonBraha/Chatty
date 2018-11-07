@@ -11,8 +11,8 @@ const ContentPreview = ({ file, handleFileUpload }) => (
         mountState => (
           <StyledContentPreview className={mountState}>
             <StyledCloseIcon 
-              className="fas fa-times fa-2x"
-              // Remove Current File From Store, Thus Closing Preview
+              className="fas fa-times-circle fa-2x"
+              // Remove Current File From Store, Thus Removing Preview
               onClick={_ => handleFileUpload(null)} 
             />
             <StyledImagePreview src={URL.createObjectURL(file)} alt="תמונה להעלאה" />

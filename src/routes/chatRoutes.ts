@@ -1,12 +1,18 @@
-import { Chat } from '../models';
+import { Chat, ChatSchemaValidator } from '../models'; 
 import requireAuth from '../utils/requireAuth';
-import { translate } from '../utils';
+import { translate, errorObject } from '../utils';
 import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
 import { IChat } from '../models/Chat';
 import * as uuid from 'uuid';
+import * as Joi from 'joi';
+import * as multer from 'multer';
+import { putObject } from '../config/s3/s3.methods';
 import { Request, Response, Router, NextFunction } from 'express';
+import validateFile from '../utils/Validation/validateFile';
+
 const router: Router = Router();
+const upload = multer();
 
 /**
  * Get all chat rooms
@@ -18,7 +24,7 @@ router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunct
     const chatRooms = await Chat.find({ $or: [{ isPrivate: true, allowedUsers: req.user._id }, { isPrivate: false }] }).sort({ updatedAt: -1 } ).lean();
     res.json(chatRooms);
   } catch (ex) {
-    next(`500 ${ex}`);
+    next(new Error(ex));
   }
 });
 
@@ -27,18 +33,30 @@ router.get('/', requireAuth, async (req: Request, res: Response, next: NextFunct
  * @api private
  * Create Chat Room
  */
-router.post('/', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', requireAuth, upload.any(), async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Extract Form Data
     const { name, isPrivate, storeMessages } = req.body;
+    const image: Buffer = req.files && req.files[0].buffer || null;
+
+    // Upload Image To S3
+    const imageUploadData = await putObject(image, `${req.user._id}/chat`, 2000);
+  
+    // Create New Chat Room
     const newChatRoom = await Chat.create({
       name,
       isPrivate,
       storeMessages,
-      slug: `${await translate(name)}-${uuid()}`
+      image: imageUploadData ? { link: imageUploadData.link, isUploaded: true } : null,
+      slug: `${await translate(name)}-${uuid()}`,
+      createdBy: req.user._id
     });
     res.json(newChatRoom);
   } catch(ex) {
-    next(new Error(`500 ${ex}`))
+    if (ex.name && ex.name === 'ValidationError') {
+      return res.status(409).json(errorObject(409, ex.errors.slug.message));
+    }
+    next(new Error(ex));
   }
 });
 
@@ -62,7 +80,7 @@ router.get('/:slug', requireAuth, async (req: Request, res: Response, next: Next
       res.json(chatRoom);
     }
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 });
 
@@ -71,7 +89,7 @@ router.get('/:slug', requireAuth, async (req: Request, res: Response, next: Next
  * @method GET
  * @api protected 
  */
-router.get('/:chatId/:messageId', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:chatId/:messageId', requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try { 
     const { chatId, messageId } = req.params;
     // Check For Valid ObjectId  
@@ -94,7 +112,7 @@ router.get('/:chatId/:messageId', async (req: Request, res: Response, next: Next
       next(new Error('400'));
     }
   } catch (ex) {
-    next(new Error(`500 ${ex}`));
+    next(new Error(ex));
   }
 });
 

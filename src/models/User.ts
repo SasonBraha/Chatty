@@ -20,7 +20,11 @@ export const UserSchema = new Schema(
     displayName: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      validate: {
+        validator: displayName => UserSchema.doesntExist({ displayName }),
+        message: () => 'שם המשתמש שבחרת תפוס, אנא בחר/י שם אחר'
+      }
     },
     email: {
       type: String,
@@ -28,7 +32,10 @@ export const UserSchema = new Schema(
       trim: true,
       lowercase: true,
       select: false,
-      unique: true
+      validate: {
+        validator: email => UserSchema.doesntExist({ email }),
+        message: () => 'כתובת דואר האלקטרוני שהזנת כבר קיימת במערכת'
+      }
     },
     password: {
       type: String,
@@ -40,7 +47,6 @@ export const UserSchema = new Schema(
       required: true,
       trim: true,
       lowercase: true,
-      unique: true
     },
     avatar: {
       type: String,
@@ -93,6 +99,10 @@ UserSchema.methods.comparePassword = async function(candidatePassword) {
     return Promise.reject(ex);
   }
 };
+
+UserSchema.statics.doesntExist = async function(options) {
+  return await this.where(options).countDocuments() === 0
+}
 
 UserSchema.index({ displayName: 'text' });
 
