@@ -10,12 +10,12 @@ const StyledRoomListItem = styled(Link)`
   color: white;
 
   &:hover {
-    background: #2F353C;
+    background: var(--active-users-color);
   }
 
   ${({ selected }) => selected && css`
     border-right: .5rem solid #0079ea;
-    background: #2F353C;
+    background: var(--active-users-color);
   `}
 `;
 

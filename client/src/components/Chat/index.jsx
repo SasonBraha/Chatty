@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Room from './Room';
 import RoomsList from './RoomsList';
 import { connect } from 'react-redux';
-import requireAuth from '../Hoc/requireAuth';
+import requireAuth from '../../containers/Hoc/requireAuth';
 import socket from '../../resources/socket';
 import { S3_BUCKET_URL } from '../../resources/constants';
 import {

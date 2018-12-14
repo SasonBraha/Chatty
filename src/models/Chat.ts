@@ -1,6 +1,5 @@
 import { Document, Schema, model } from 'mongoose';
 import ObjectID = Schema.Types.ObjectId;
-import { IUser, UserSchema } from './User';
 import { IFile, FileSchema } from './File';
 
 interface IMessage {

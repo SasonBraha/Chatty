@@ -60,5 +60,5 @@ class MessagesList extends Component {
   }
 }
 
-const mapStateToProps = ({ chat: { messages, isFetched, currentChatRoom: { _id, storeMessages } } }) => ({ messages, _id, storeMessages, isFetched });
+const mapStateToProps = ({ chat: { messages, isFetched, currentChat: { _id, storeMessages } } }) => ({ messages, _id, storeMessages, isFetched });
 export default connect(mapStateToProps, { newMessage, fetchPreviousMessages })(MessagesList);

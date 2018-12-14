@@ -11,7 +11,8 @@ import {
   FETCH_NOTIFICATIONS
 } from '../constants';
 import axios from 'axios'; 
-import { BASE_URL } from '../../resources/constants';
+import { generateId } from '../../utils';
+import { API_URL } from '../../utils/config';
 
 // Control Nav State
 export const setNavState = () => ({
@@ -29,12 +30,13 @@ export const setHeaderDropdown = () => ({
 });
 
 // Display Toast
-export const setToast = msg => {
+export const setToast = (message, type) => {
   return {
     type: SET_TOAST,
     payload: {
-      msg,
-      id: Math.random()
+      message,
+      type,
+      id: generateId()
     }
   };
 };
@@ -53,17 +55,17 @@ export const httpRequestInProgress = bool => ({
 // Fetch Unseen Notifications Count
 export const fetchUnseenNotificationsCount = () => ({
   type: FETCH_UNSEEN_NOTIFICATIONS_COUNT,
-  payload: axios.get(`${BASE_URL}/notifications/unseen`)
+  payload: axios.get(`${API_URL}/notifications/unseen`)
 });
 
 // Set Notification Dropdown && Fetch Notifications
 export const setNotificationsDropdown = () => async (dispatch, getState) => {
   // Open Notifications Dropdown
   dispatch({ type: SET_NOTIFICATIONS_DROPDOWN });
-  const { root: { notifications: { items } } } = getState();
+  const { global: { notifications: { items } } } = getState();
   // Fetch Notifications
   if (!items.length) {
-    dispatch({ type: FETCH_NOTIFICATIONS, payload: axios.get(`${BASE_URL}/notifications`) })
+    dispatch({ type: FETCH_NOTIFICATIONS, payload: axios.get(`${API_URL}/notifications`) })
   }
 }
 

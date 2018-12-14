@@ -35,7 +35,7 @@ const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }
   );
 }
 
-const mapStateToProps = ({ clientStatus: { userData: { _id: loggedUserId } } }) => ({ loggedUserId });
+const mapStateToProps = ({ auth: { userData: { _id: loggedUserId } } }) => ({ loggedUserId });
 export default connect(mapStateToProps, null)(Message);
   
 

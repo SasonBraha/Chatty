@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/actions';
-import Form from '../Form';
-import Field from '../Form/Field';
+import Form from '../../components/Form';
+import Field from '../../components/Form/Field';
 import Helmet from 'react-helmet';  
 import guestOnly from '../Hoc/guestOnly'; 
 import Recaptcha from 'react-google-invisible-recaptcha';
@@ -109,7 +109,7 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = ({ root: { form: { errors } } }) => ({ errors });
+const mapStateToProps = ({ global: { form: { errors } } }) => ({ errors });
 export default connect(mapStateToProps, { registerUser })(guestOnly(Register));
 
 

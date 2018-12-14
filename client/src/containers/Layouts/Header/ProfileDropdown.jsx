@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Dropdown from '../../Dropdown';
-import List from '../../List';
-import ListItem from '../../List/ListItem';
+import Dropdown from '../../../components/Dropdown';
+import List from '../../../components/List';
+import ListItem from '../../../components/List/ListItem';
 import { setHeaderDropdown, removeUserCredentials } from '../../../redux/actions';
 
 export const StyledProfile = styled.div`
@@ -51,8 +51,8 @@ const ProfileDropdown = ({ setHeaderDropdown, userData, isHeaderDropdownOpen, re
 );
 
 const mapStateToProps = ({
-  clientStatus: { userData },
-  root: {
+  auth: { userData },
+  global: {
     header: { isHeaderDropdownOpen } 
   }
 }) => ({ userData, isHeaderDropdownOpen });

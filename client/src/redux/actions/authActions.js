@@ -4,25 +4,26 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import { setToast } from './';
 import history from '../../resources/history'; 
-import { BASE_URL, ACCESS_TOKEN, LAST_URL_PATH, SIGN_IN_URL } from '../../resources/constants';
+import { LAST_URL_PATH, SIGN_IN_URL } from '../../resources/constants';
+import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN } from '../../utils/config';
 
 export const registerUser = (formData, captchaElement) => async dispatch => {
   try {
-    await axios.post(`${BASE_URL}/auth/signup`, formData);
+    await axios.post(`${API_URL}/auth/signup`, formData);
     history.push(SIGN_IN_URL);
-    dispatch(setToast('נרשמת בהצלחה, כעת תוכל/י להתחבר'))
+    dispatch(setToast('נרשמת בהצלחה, כעת תוכל/י להתחבר', 'success'))
   } catch (ex) {
     captchaElement.reset();
     const { data } = ex.response;
-    if (data.error && data.error.code === 400) return dispatch(setToast(data.error.message));
+    if (data.error && data.error.code === 400) return dispatch(setToast(data.error.message, 'error'));
     dispatch({ type: SET_FORM_ERRORS, payload: data });
   }
 };
  
 export const googleOAuthLogin = token => async dispatch => {  
   try {
-    const accessToken = await axios.post(`${BASE_URL}/auth/google`, { token: token.getAuthResponse().id_token });
-    localStorage.setItem(ACCESS_TOKEN, accessToken.data); 
+    const accessToken = await axios.post(`${API_URL}/auth/google`, { token: token.getAuthResponse().id_token });
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken.data); 
     window.location.href = localStorage.getItem(LAST_URL_PATH) || '/'; 
     localStorage.removeItem(LAST_URL_PATH);
   } catch (ex) {
@@ -32,19 +33,19 @@ export const googleOAuthLogin = token => async dispatch => {
 
 export const loginUser = formData => async dispatch => {
   try {
-    const loginCredentials = await axios.post(`${BASE_URL}/auth/signin`, formData);
-    localStorage.setItem(ACCESS_TOKEN, loginCredentials.data);
+    const loginCredentials = await axios.post(`${API_URL}/auth/signin`, formData);
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, loginCredentials.data);
     window.location.href = localStorage.getItem(LAST_URL_PATH) || ''; 
     localStorage.removeItem(LAST_URL_PATH);
   } catch (ex) {
-    dispatch(setToast(ex.response.data.error.message))
+    dispatch(setToast(ex.response.data.error.message, 'error'))
   }
 };
 
 
 export const setUserCredentials = () => dispatch => {
   try {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
     if (accessToken) {
       // Set Authorization Header
       axios.defaults.headers.common['Authorization'] = accessToken;
@@ -62,10 +63,10 @@ export const setUserCredentials = () => dispatch => {
 
 export const removeUserCredentials = (urlPath = '/') => dispatch => {
   window.location.href = urlPath;
-  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN);
 };
 
 export const requireLogin = history => dispatch => {
   history.push(SIGN_IN_URL);
-  dispatch(setToast('עליך להתחבר על מנת לצפות בדף זה'));
+  dispatch(setToast('עליך להתחבר על מנת לצפות בדף זה', 'error'));
 }; 

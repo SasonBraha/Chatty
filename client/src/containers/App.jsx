@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import withRouter from 'react-router-dom/withRouter';
 import { setUserCredentials, showConsoleWarning } from '../redux/actions';
 import { connect } from 'react-redux';
-import Routes from './Routes';
+import Routes from '../components/Routes';
 import { Header, Nav } from './Layouts';
 import Container from './Container';
-import Toasts from './Toasts';
-import '../resources/globalStyle';
+import Toasts from './Toasts';  
 
 class App extends Component {
   constructor(props) {
@@ -20,10 +19,14 @@ class App extends Component {
       <>
         <Header />
         <Nav />
-        <Container>
-          <Routes />
-          <Toasts />
-        </Container>
+
+        <main>
+          <Container>
+            <Routes />
+          </Container>
+        </main>
+
+        <Toasts />
       </>
     );
   }

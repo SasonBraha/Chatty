@@ -1,49 +1,53 @@
 //------------------------------------//
-//  Root                              //
+//  Global                            //
 //------------------------------------//
-export const UPDATE_APP_BRAND = '@root/UPDATE_APP_BRAND';
-export const SET_NAV_STATE = '@root/SET_NAV_STATE';
-export const RESET_DROPDOWN = '@root/RESET_DROPDOWN';
-export const SET_HEADER_DROPDOWN = '@root/SET_HEADER_DROPDOWN';
-export const HTTP_REQUEST_IN_PROGRESS = '@root/HTTP_REQUEST_IN_PROGRESS';
-export const SET_TOAST = '@root/SET_TOAST';
-export const REMOVE_TOAST = '@root/REMOVE_TOAST';
+const globalPrefix = '@global';
+export const UPDATE_APP_BRAND = `${globalPrefix}/UPDATE_APP_BRAND`;
+export const SET_NAV_STATE = `${globalPrefix}/SET_NAV_STATE`;
+export const RESET_DROPDOWN = `${globalPrefix}/RESET_DROPDOWN`;
+export const SET_HEADER_DROPDOWN = `${globalPrefix}/SET_HEADER_DROPDOWN`;
+export const HTTP_REQUEST_IN_PROGRESS = `${globalPrefix}/HTTP_REQUEST_IN_PROGRESS`;
+export const SET_TOAST = `${globalPrefix}/SET_TOAST`;
+export const REMOVE_TOAST = `${globalPrefix}/REMOVE_TOAST`;
 
 //------------------------------------//
 //  Auth                              //
 //------------------------------------//
-export const REGISTER_USER = '@auth/REGISTER_USER';
-export const LOGIN_USER = '@auth/LOGIN_USER';
-export const SET_USER_CREDENTIALS = '@auth/SET_USER_CREDENTIALS';
-export const REMOVE_USER_CREDENTIALS = '@auth/REMOVE_USER_CREDENTIALS';
-export const SET_FORM_ERRORS = '@auth/SET_FORM_ERRORS';
-export const REQUIRE_LOGIN = '@auth/REQUIRE_LOGIN';
+const authPrefix = '@auth';
+export const REGISTER_USER = `${authPrefix}/REGISTER_USER`;
+export const LOGIN_USER = `${authPrefix}/LOGIN_USER`;
+export const SET_USER_CREDENTIALS = `${authPrefix}/SET_USER_CREDENTIALS`;
+export const REMOVE_USER_CREDENTIALS = `${authPrefix}/REMOVE_USER_CREDENTIALS`;
+export const SET_FORM_ERRORS = `${authPrefix}/SET_FORM_ERRORS`;
+export const REQUIRE_LOGIN = `${authPrefix}/REQUIRE_LOGIN`;
 
 //------------------------------------//
 //  User                              //
 //------------------------------------//
-export const FETCH_USER_PROFILE = '@user/FETCH_USER_PROFILE';
-export const FETCH_UNSEEN_NOTIFICATIONS_COUNT = '@user/FETCH_UNSEEN_NOTIFICATIONS_COUNT';
-export const SET_NOTIFICATIONS_DROPDOWN = '@user/SET_NOTIFICATIONS_DROPDOWN';
-export const FETCH_NOTIFICATIONS = '@user/FETCH_NOTIFICATIONS';
+const userPrefix = '@user';
+export const FETCH_USER_PROFILE = `${userPrefix}/FETCH_USER_PROFILE`;
+export const FETCH_UNSEEN_NOTIFICATIONS_COUNT = `${userPrefix}/FETCH_UNSEEN_NOTIFICATIONS_COUNT`;
+export const SET_NOTIFICATIONS_DROPDOWN = `${userPrefix}/SET_NOTIFICATIONS_DROPDOWN`;
+export const FETCH_NOTIFICATIONS = `${userPrefix}/FETCH_NOTIFICATIONS`;
 
 //------------------------------------//
 //  Chat                              //
 //------------------------------------//
-export const FETCH_ROOMS = '@chat/FETCH_ROOMS';
-export const SET_CREATE_ROOM_MODAL_STATE = '@chat/SET_CREATE_ROOM_MODAL_STATE';
-export const FETCH_CURRENT_ROOM = '@chat/FETCH_CURRENT_ROOM';
-export const NEW_MESSAGE = '@chat/NEW_MESSAGE';
-export const UPDATE_ACTIVE_USERS = '@chat/UPDATE_ACTIVE_USERS';
-export const ADD_TYPING_USER = '@chat/ADD_TYPING_USER';
-export const REMOVE_TYPING_USER = '@chat/REMOVE_TYPING_USER';
-export const SET_IS_TYPING = '@chat/SET_IS_TYPING';
-export const SET_FILE = '@chat/SET_FILE';
-export const SUBMIT_MESSAGE = '@chat/SUBMIT_MESSAGE';
-export const RESET_CHAT_STATE = '@chat/RESET_CHAT_STATE';
-export const FETCH_PREVIOUS_MESSAGES = '@chat/FETCH_PREVIOUS_MESSAGES';
-export const SET_IS_FETCHING_PREVIOUS_MESSAGES = '@chat/SET_IS_FETCHING_PREVIOUS_MESSAGES';
-export const SET_IS_MORE_PREVIOUS_MESSAGES = '@chat/SET_IS_MORE_PREVIOUS_MESSAGES';
-export const UNSHIFT_PREVIOUS_MESSAGES = '@chat/UNSHIFT_PREVIOUS_MESSAGES';
-export const FETCH_USER_SUGGESTIONS = '@chat/FETCH_USER_SUGGESTIONS';
-export const SET_USER_SUGGESTOR = '@chat/SET_USER_SUGGESTOR';
+const chatPrefix = '@chat';
+export const FETCH_ROOMS = `${chatPrefix}/FETCH_ROOMS`;
+export const SET_CREATE_ROOM_MODAL_STATE = `${chatPrefix}/SET_CREATE_ROOM_MODAL_STATE`;
+export const FETCH_CURRENT_ROOM = `${chatPrefix}/FETCH_CURRENT_ROOM`;
+export const NEW_MESSAGE = `${chatPrefix}/NEW_MESSAGE`;
+export const UPDATE_ACTIVE_USERS = `${chatPrefix}/UPDATE_ACTIVE_USERS`;
+export const ADD_TYPING_USER = `${chatPrefix}/ADD_TYPING_USER`;
+export const REMOVE_TYPING_USER = `${chatPrefix}/REMOVE_TYPING_USER`;
+export const SET_IS_TYPING = `${chatPrefix}/SET_IS_TYPING`;
+export const SET_FILE = `${chatPrefix}/SET_FILE`;
+export const SUBMIT_MESSAGE = `${chatPrefix}/SUBMIT_MESSAGE`;
+export const RESET_CHAT_STATE = `${chatPrefix}/RESET_CHAT_STATE`;
+export const FETCH_PREVIOUS_MESSAGES = `${chatPrefix}/FETCH_PREVIOUS_MESSAGES`;
+export const SET_IS_FETCHING_PREVIOUS_MESSAGES = `${chatPrefix}/SET_IS_FETCHING_PREVIOUS_MESSAGES`;
+export const SET_IS_MORE_PREVIOUS_MESSAGES = `${chatPrefix}/SET_IS_MORE_PREVIOUS_MESSAGES`;
+export const UNSHIFT_PREVIOUS_MESSAGES = `${chatPrefix}/UNSHIFT_PREVIOUS_MESSAGES`;
+export const FETCH_USER_SUGGESTIONS = `${chatPrefix}/FETCH_USER_SUGGESTIONS`;
+export const SET_USER_SUGGESTOR = `${chatPrefix}/SET_USER_SUGGESTOR`;

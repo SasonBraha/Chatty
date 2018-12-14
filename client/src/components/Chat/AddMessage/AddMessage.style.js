@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { shadowColor } from '../../../resources/themeVariables';
 
 export const StyledAddMessageContainer = styled.div`
   display: flex;
@@ -21,7 +20,7 @@ export const typeAreaStyle = {
   border: 'none',
   outline: 'none',
   background: 'linear-gradient(to left, #eee, white)',
-  boxShadow: `0 0 .5rem ${shadowColor}`,
+  boxShadow: `0 0 .5rem var(--sahdow)`,
   width: '100%'
 }
 
@@ -37,7 +36,7 @@ export const StyledSubmitMessage = styled.button`
   cursor: pointer;
   transition: .3s;
   transform: translateY(-.17rem);
-  box-shadow: 0 0 .5rem ${shadowColor};
+  box-shadow: 0 0 .5rem var(--sahdow);
 
   &:hover {
     color: lightgray;

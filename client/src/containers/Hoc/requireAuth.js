@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setToast } from '../../redux/actions';
 import { SIGN_IN_URL } from '../../resources/constants';
+import { REDIRECTED_FROM_QS } from '../../utils/config';
 
 export default ChildComponent => {
   class ComposedComponent extends Component {
@@ -16,8 +17,8 @@ export default ChildComponent => {
     shouldRedirect() {
       const { isAuthenticated, history, setToast } = this.props;
       if (!isAuthenticated) {
-        history.push(SIGN_IN_URL);
-        setToast('עליך להתחבר על מנת לצפות בדף זה');
+        history.push(`${SIGN_IN_URL}?${REDIRECTED_FROM_QS}=${this.props.location.pathname}`);
+        setToast('עליך להתחבר על מנת לצפות בדף זה', 'error');
       }
     }
 
@@ -27,7 +28,7 @@ export default ChildComponent => {
     }
   }
 
-  const mapStateToProps = ({ clientStatus: { isAuthenticated } }) => ({
+  const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
     isAuthenticated
   });
   return connect(

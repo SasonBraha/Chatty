@@ -1,12 +1,12 @@
 //@ts-check
 import { FETCH_USER_PROFILE } from '../constants';
 import axios from 'axios';
-import { BASE_URL } from '../../resources/constants';
+import { API_URL } from '../../utils/config';
 
 // Fetch User Profile
 export const fetchUserProfile = slug => dispatch => {
   dispatch({
     type: FETCH_USER_PROFILE,
-    payload: axios.get(`${BASE_URL}/users/${slug}`)
+    payload: axios.get(`${API_URL}/users/${slug}`)
   });
 };

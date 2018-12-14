@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Form from '../Form';
-import Field from '../Form/Field';
+import Form from '../../components/Form';
+import Field from '../../components/Form/Field';
 import { loginUser } from '../../redux/actions';
-import guestOnly from '../Hoc/guestOnly';
+import guestOnly from '../Hoc/guestOnly'; 
 import { Helmet } from 'react-helmet';
 
 class Login extends Component {

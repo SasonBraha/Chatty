@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import  { mainColor, success } from '../../resources/themeVariables';
+import  { mainColor } from '../../resources/themeVariables';
 import PropTypes from 'prop-types';
-import GoogleSignIn from '../Auth/GoogleSignIn';
+import GoogleSignIn from '../../containers/Auth/GoogleSignIn';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -38,9 +38,8 @@ const StyledForm = styled.form`
   button[type="submit"] {
     display: block;
     width: 100%;
-    border: none;
-    background-color: ${success};
-    border: 1px solid ${success};
+    background-color: var(--success-color);
+    border: .1rem solid var(--success-color);
     color: white;
     font-size: 1.7rem;
     padding: 1.3rem 0;

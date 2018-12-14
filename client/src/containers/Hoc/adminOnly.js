@@ -11,7 +11,7 @@ export default ChildComponent => {
     }
   }
 
-  const mapStateToProps = ({ clientStatus: { userData: { role } } }) => ({
+  const mapStateToProps = ({ auth: { userData: { role } } }) => ({
     userRole: role
   });
   return connect(mapStateToProps, null)(requireAuth(ComposedComponent));

@@ -1,5 +1,5 @@
 //------------------------------------//
-//  Root                              //
+//  Global                            //
 //------------------------------------//
 export {
   setNavState,
@@ -11,7 +11,7 @@ export {
   fetchUnseenNotificationsCount, 
   setNotificationsDropdown, 
   showConsoleWarning
-} from './rootActions';
+} from './globalActions';
 
 
 //------------------------------------//

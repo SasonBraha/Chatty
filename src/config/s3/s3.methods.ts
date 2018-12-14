@@ -2,7 +2,6 @@ import * as uuid from 'uuid';
 import validateFile from '../../utils/Validation/validateFile';
 import keys from '../keys';
 import { s3 } from './s3Config';
-import logger from '../../handlers/logHandler';
 
 interface IFileData {
   type: string;

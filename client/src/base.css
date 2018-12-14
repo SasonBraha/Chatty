@@ -1,0 +1,60 @@
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
+
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+:root {
+  /* Header & Nav */
+  --header-height: 5.5rem;
+  --header-color: #1E242B;
+  --nav-width: 25rem;
+  --nav-color: #1E242B;
+
+  /* Chat Config */
+  --rooms-list-color: #242A31;
+  --active-users-color: #2F353C;
+  --own-message: #0079ea;
+  --chat-background-color: #E8EAEF;
+
+  /* Global */
+  --danger-color: #DC3545;
+  --success-color: #28A745;
+  --shadow: rgba(0, 0, 0, .2);
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 53.5%;
+  }
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: 'Open Sans Hebrew', sans-serif;
+  box-sizing: border-box;
+  height: 100%;
+  background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+

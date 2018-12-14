@@ -4,7 +4,6 @@ import * as uuid from 'uuid';
 import * as rp from 'request-promise';
 import keys from '../config/keys';
 import registerValidator from '../utils/Validation/registerValidator';
-import registerDBValidator from '../utils/Validation/registerDBValidator';
 import { OAuth2Client } from 'google-auth-library';
 import { Router, Request, Response, NextFunction } from 'express';
 import { errorObject } from '../utils';
@@ -112,6 +111,7 @@ router.post('/google', async (req: Request, res: Response, next: NextFunction) =
       audience: keys.googleOAuthClientId
     });
     const { email, name: displayName, picture: avatar } = ticket.getPayload();
+    
 
     // Check If User Exist
     const user = await User.findOne({ email });

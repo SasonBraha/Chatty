@@ -6,29 +6,28 @@ class ErrorBoundry extends Component {
     hasError: false
   }
 
-  componentDidCatch(error, info) {
-    this.setState({ hasError: true });
+  static getDerivedStateFromError(ex) {
+    return {
+      hasErr: true
+    }
   }
 
   render() {
-    const { hasError } = this.state;
-    return hasError 
-      ? (
-        <StyledError>משהו לא בסדר</StyledError>
-      ) : (
-        this.props.children
-      )
+    return this.state.hasError
+      ? <StyledErrorBoundry>אוי! משהו השתבש.</StyledErrorBoundry>
+      : this.props.children
   }
 }
 
-const StyledError = styled.div`
+const StyledErrorBoundry = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ff0018;
+  background: var(--danger-color);
   color: white;
+  font-size: 2rem;
 `;
 
 export default ErrorBoundry;

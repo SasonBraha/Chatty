@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { shadowColor } from '../../../resources/themeVariables';
 import media from '../../../resources/media';
 
 export const StyledMessageContainer = styled.div`
@@ -14,7 +13,7 @@ export const StyledMessage = styled.div`
   min-width: 25rem;
   max-width: 50rem;
   max-height: 40rem;
-  box-shadow: 0 0 .5rem ${shadowColor};
+  box-shadow: 0 0 .5rem var(--shadow);
   background: white;
   color: black;
   word-break: break-word;
@@ -26,7 +25,7 @@ export const StyledMessage = styled.div`
 
   ${({ isMine }) => isMine && css`
     float: right;
-    background: #0079ea;
+    background: var(--own-message);
     color: white;
   `}
 

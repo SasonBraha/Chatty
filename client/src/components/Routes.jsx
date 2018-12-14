@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import SignUp from './Auth/SignUp';
-import SignIn from './Auth/SignIn';
+import SignUp from '../containers/Auth/SignUp';
+import SignIn from '../containers/Auth/SignIn';
 import Profile from './Users/Profile';
 import Chat from './Chat';
 import ChatLobby from './Chat/Lobby';

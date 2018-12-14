@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { shadowColor } from '../resources/themeVariables';
 import { resetDropdown } from '../redux/actions';
 import { connect } from 'react-redux';
+
+class Dropdown extends Component {
+  componentDidUpdate() {
+    this.props.isOpen
+      ? document.body.addEventListener('click', this.props.resetDropdown)
+      : document.body.removeEventListener('click', this.props.resetDropdown)
+  }
+
+  render() {
+    return (
+      <StyledDropdown {...this.props}>
+        {this.props.children}
+      </StyledDropdown>
+    )
+  }
+}
 
 const StyledDropdown = styled.div`
   background: ${({ background }) => background};
   color: ${({ color }) => color};
-  box-shadow: 0 0.4rem 0.7rem ${shadowColor};
+  box-shadow: 0 0.4rem 0.7rem var(--shadow);
   position: absolute;
   transition: all 0.15s, transform 0.2s;
   transform-origin: left top;
@@ -26,20 +41,6 @@ const StyledDropdown = styled.div`
   `}
 `;
 
-class Dropdown extends Component {
-  componentDidUpdate() {
-    this.props.isOpen
-      ? document.body.addEventListener('click', this.props.resetDropdown)
-      : document.body.removeEventListener('click', this.props.resetDropdown)
-  }
-
-  render() {
-    return (
-      <StyledDropdown {...this.props}>{this.props.children}</StyledDropdown>
-    )
-  }
-}
-
 Dropdown.propTypes = {
   background: PropTypes.string,
   color: PropTypes.string,
@@ -52,7 +53,7 @@ Dropdown.propTypes = {
 Dropdown.defaultProps = {
   background: 'white',
   color: 'black',
-  top: 0,
+  top: 0, 
   left: 0,
   isOpen: true
 };

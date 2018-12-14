@@ -5,7 +5,7 @@ export const StyledActiveUsers = styled.div`
   padding: 0 2rem 0 2rem; 
   text-align: center;
   height: 100%;
-  background: #2F353C;
+  background: var(--active-users-color);
   padding: 0.5rem;
   overflow-y: auto;
   overflow-x: hidden;

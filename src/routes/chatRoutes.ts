@@ -1,15 +1,13 @@
-import { Chat, ChatSchemaValidator } from '../models'; 
+import { Chat } from '../models'; 
 import requireAuth from '../utils/requireAuth';
 import { translate, errorObject } from '../utils';
 import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
 import { IChat } from '../models/Chat';
 import * as uuid from 'uuid';
-import * as Joi from 'joi';
 import * as multer from 'multer';
 import { putObject } from '../config/s3/s3.methods';
 import { Request, Response, Router, NextFunction } from 'express';
-import validateFile from '../utils/Validation/validateFile';
 
 const router: Router = Router();
 const upload = multer();
@@ -37,7 +35,7 @@ router.post('/', requireAuth, upload.any(), async (req: Request, res: Response, 
   try {
     // Extract Form Data
     const { name, isPrivate, storeMessages } = req.body;
-    const image: Buffer = req.files && req.files[0].buffer || null;
+    const image: Buffer = req.files && req.files.length && req.files[0].buffer || null;
 
     // Upload Image To S3
     const imageUploadData = await putObject(image, `${req.user._id}/chat`, 2000);

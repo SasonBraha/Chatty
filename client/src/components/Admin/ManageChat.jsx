@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import adminOnly from '../Hoc/adminOnly';
+import adminOnly from '../../containers/Hoc/guestOnly';
 
 class ManageChat extends Component {
   render() {

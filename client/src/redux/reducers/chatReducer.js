@@ -23,7 +23,7 @@ const initialState = {
   messages: [],
   isTyping: false,
   file: null,
-  currentChatRoom: {},
+  currentChat: {},
   isFetched: false,
   urlSlug: '',
   suggestedUsers: [],
@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isFetched: true,
-        currentChatRoom: {
+        currentChat: {
           ...action.payload
         },
         messages: [...action.payload.messages]

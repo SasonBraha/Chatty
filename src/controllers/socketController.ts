@@ -1,4 +1,3 @@
-import { User } from '../models';
 import { IUser } from '../models/User';
 import chatController from './Chat/chatController';
 import notificationsController from './notificationsController';

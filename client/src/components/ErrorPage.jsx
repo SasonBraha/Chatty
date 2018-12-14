@@ -2,6 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+const errorMessages = {
+  403: 'לחשבונך אין מספיק גישות על מנת לצפות בדף זה',
+  404: 'הדף שביקשת לא קיים במערכת',
+  500: 'אוי! משהו השתבש',
+}
+
+const ErrorPage = ({ statusCode = 404 }) => (
+  <StyledErrorPageContainer>
+    <StyledStatusCode>{statusCode}</StyledStatusCode>
+    <StyledErrorMessage>{errorMessages[statusCode]}</StyledErrorMessage>  
+  </StyledErrorPageContainer>
+);
+
+
 const StyledErrorPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,21 +36,6 @@ const StyledErrorMessage = styled.span`
   color: black;
   text-align: center;
 `;
-
-const ErrorPage = ({ statusCode = 404 }) => {
-  const errorMessages = {
-    403: 'לחשבונך אין מספיק גישות על מנת לצפות בדף זה',
-    404: 'הדף שביקשת לא קיים במערכת',
-    500: 'אוי! משהו השתבש',
-  }
-
-  return (
-    <StyledErrorPageContainer>
-      <StyledStatusCode>{statusCode}</StyledStatusCode>
-      <StyledErrorMessage>{errorMessages[statusCode]}</StyledErrorMessage>  
-    </StyledErrorPageContainer>
-  )
-}
 
 ErrorPage.propTypes = {
   statusCode: PropTypes.number.isRequired

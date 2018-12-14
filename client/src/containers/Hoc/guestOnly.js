@@ -21,7 +21,7 @@ export default ChildComponent => {
     }
   }
 
-  const mapStateToProps = ({ clientStatus: { isAuthenticated } }) => ({
+  const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
     isAuthenticated
   });
   return connect(mapStateToProps, null)(ComposedComponent);

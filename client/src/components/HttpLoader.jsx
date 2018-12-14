@@ -28,5 +28,5 @@ HttpLoader.propTypes = {
   httpRequestInProgress: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = ({ root: { httpRequestInProgress } }) => ({ httpRequestInProgress });
+const mapStateToProps = ({ global: { httpRequestInProgress } }) => ({ httpRequestInProgress });
 export default connect(mapStateToProps, null)(HttpLoader);

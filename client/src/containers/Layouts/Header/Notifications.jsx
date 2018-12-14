@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Dropdown from '../../Dropdown';
-import List from '../../List';
-import ListItem from '../../List/ListItem';
+import Dropdown from '../../../components/Dropdown';
+import List from '../../../components/List';
+import ListItem from '../../../components/List/ListItem';
 import { fetchUnseenNotificationsCount, setNotificationsDropdown } from '../../../redux/actions';
 
 const StyledNotifications = styled.div`
@@ -65,5 +65,5 @@ class Notifications extends Component {
   }
 }
 
-const mapStateToProps = ({ root: { notifications } }) => ({ notifications });
+const mapStateToProps = ({ global: { notifications } }) => ({ notifications });
 export default connect(mapStateToProps, { fetchUnseenNotificationsCount, setNotificationsDropdown })(Notifications);

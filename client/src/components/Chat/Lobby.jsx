@@ -1,6 +1,6 @@
 import React from 'react';
 import RoomsList from './RoomsList';
-import requireAuth from '../Hoc/requireAuth';
+import requireAuth from '../../containers/Hoc/requireAuth';
 import Helmet from 'react-helmet';
 
 const Lobby = () => 

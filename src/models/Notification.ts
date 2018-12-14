@@ -1,5 +1,4 @@
 import { Document, Schema, model } from 'mongoose';
-import ObjectID = Schema.Types.ObjectId;
 import { io } from '../app';
 import { User } from './';
 import { IUser } from './User';

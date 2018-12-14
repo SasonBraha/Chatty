@@ -4,31 +4,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { googleOAuthLogin } from '../../redux/actions';
 
-const StyledGoogleLogin = styled(GoogleLogin)`
-  padding: 1rem 2rem;
-  text-align: center;
-  background: #ebebeb;
-  color: black; 
-  border-radius: 0.5rem;
-  margin-top: 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  letter-spacing: .03rem;
-  outline: none;
-  transition: .3s;
-  box-shadow: 0 0 .3rem .3rem transparent;
-  width: 100%;
-  margin-bottom: 1.5rem;
-
-  &:hover {
-    box-shadow: 0 0 .3rem .3rem rgba(66,133,244,.3);
-    background: #eee;
-  }
-`;
-
 const GoogleSignIn = ({ isAuthenticated, googleOAuthLogin }) => (
   !isAuthenticated && (
     <StyledGoogleLogin 
@@ -69,5 +44,30 @@ const GoogleSignIn = ({ isAuthenticated, googleOAuthLogin }) => (
   )
 );
 
-const mapStateToProps = ({ clientStatus: { isAuthenticated } }) => ({ isAuthenticated });
+const StyledGoogleLogin = styled(GoogleLogin)`
+  padding: 1rem 2rem;
+  text-align: center;
+  background: #ebebeb;
+  color: black; 
+  border-radius: 0.5rem;
+  margin-top: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .03rem;
+  outline: none;
+  transition: .3s;
+  box-shadow: 0 0 .3rem .3rem transparent;
+  width: 100%;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    box-shadow: 0 0 .3rem .3rem rgba(66,133,244,.3);
+    background: #eee;
+  }
+`;
+
+const mapStateToProps = ({ auth: { isAuthenticated } }) => ({ isAuthenticated });
 export default connect(mapStateToProps, { googleOAuthLogin })(GoogleSignIn);

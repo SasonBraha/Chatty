@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import chatReducer from './chatReducer';
-import rootReducer from './rootReducer'; 
+import globalReducer from './globalReducer'; 
 import usersReducer from './usersReducer';
+import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 
 export default combineReducers({
-  clientStatus: authReducer,
+  auth: authReducer,
   chat: chatReducer,
-  root: rootReducer,
+  global: globalReducer,
   users: usersReducer,
   router: routerReducer,
+  form: formReducer
 }); 

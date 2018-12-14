@@ -18,7 +18,7 @@ import {
 import { httpRequestInProgress, setToast } from './'; 
 import axios from 'axios';
 import socket from '../../resources/socket';
-import { BASE_URL } from '../../resources/constants';
+import { API_URL } from '../../utils/config';
 
 export const createChatRoom = formValues => async _ => {
   try {
@@ -27,7 +27,7 @@ export const createChatRoom = formValues => async _ => {
     Object.keys(formValues).forEach(key => formData.append(key, formValues[key]));
     
     // Create Chat
-    const newRoom = await axios.post(`${BASE_URL}/chat`, formData, {
+    const newRoom = await axios.post(`${API_URL}/chat`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -43,12 +43,12 @@ export const createChatRoom = formValues => async _ => {
 export const fetchRooms = () => async (dispatch, getState) => {
   const { chat: { chatRooms } } = getState();
   if (!Object.keys(chatRooms).length) {
-    dispatch({ type: FETCH_ROOMS, payload: axios.get(`${BASE_URL}/chat`) });
+    dispatch({ type: FETCH_ROOMS, payload: axios.get(`${API_URL}/chat`) });
   }
 };
 
 export const fetchChatRoom = slug => async dispatch => {
-  const chatRoom = await axios.get(`${BASE_URL}/chat/${slug}`);
+  const chatRoom = await axios.get(`${API_URL}/chat/${slug}`);
   dispatch({ type: FETCH_CURRENT_ROOM, payload: chatRoom.data });
   document.title = chatRoom.data.name;
 };
@@ -79,11 +79,11 @@ export const handleFileUpload = file => dispatch => {
   ];
   // Check File Type
   const fileType = file.type.split('/')[1];
-  if (!allowedFileTypes.includes(fileType)) return dispatch(setToast('הקובץ שנבחר לא נתמך במערכת'));
+  if (!allowedFileTypes.includes(fileType)) return dispatch(setToast('הקובץ שנבחר לא נתמך במערכת', 'error'));
   
   // Check File Size
   const fileSizeInKB = Math.floor(file.size / 1024);
-  if (fileSizeInKB > maxFileSize) return dispatch(setToast(`הקובץ שנבחר גדול מדי, הגודל המירבי הניתן להעלאה הינו ${Math.ceil(maxFileSize / 1024)}MB`));
+  if (fileSizeInKB > maxFileSize) return dispatch(setToast(`הקובץ שנבחר גדול מדי, הגודל המירבי הניתן להעלאה הינו ${Math.ceil(maxFileSize / 1024)}MB`, 'error'));
 
   dispatch({ type: SET_FILE, payload: file })
 };
@@ -125,7 +125,7 @@ export const fetchPreviousMessages = (chatId, messageId) => async (dispatch, get
       dispatch({ type: SET_IS_FETCHING_PREVIOUS_MESSAGES });
       dispatch(httpRequestInProgress(true));
       // Fetch Messages
-      const previousMessages = await axios.get(`${BASE_URL}/chat/${chatId}/${messageId}`);
+      const previousMessages = await axios.get(`${API_URL}/chat/${chatId}/${messageId}`);
       // If Messages
       if (previousMessages.data.length) {
         // Add Messages To Store
@@ -156,7 +156,7 @@ export const fetchUserSuggestions = displayName => dispatch => {
     if (displayName.trim().length) {
       dispatch({
         type: FETCH_USER_SUGGESTIONS,
-        payload: axios.get(`${BASE_URL}/users?displayName=${displayName}&limit=5`)
+        payload: axios.get(`${API_URL}/users?displayName=${displayName}&limit=5`)
       });
     }
   }, 400)
