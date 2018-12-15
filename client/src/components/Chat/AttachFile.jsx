@@ -3,7 +3,21 @@ import { connect } from "react-redux";
 import { handleFileUpload } from '../../redux/actions';
 import styled from 'styled-components';
 
-export const StyledAttachFile = styled.label`
+const AttachFile = ({ handleFileUpload }) => (
+  <StyledAttachFile>
+    <input 
+      onChange={e => {
+        handleFileUpload(e.target.files[0]);
+        e.target.value = null;
+      }} 
+      type="file" 
+      accept="image/*"
+    />
+    <i className="fas fa-paperclip fa-lg"></i>
+  </StyledAttachFile>
+);
+
+const StyledAttachFile = styled.label`
   padding-right: 2rem;
   cursor: pointer;
   background: inherit;
@@ -12,25 +26,5 @@ export const StyledAttachFile = styled.label`
     display: none;
   }
 `;
-
-const AttachFile = ({ handleFileUpload }) => {
-  const handleFileChange = e => {
-    // Set File To Store
-    handleFileUpload(e.target.files[0]);
-    // Reset Value
-    e.target.value = null;
-  } 
-
-  return (
-    <StyledAttachFile>
-      <input 
-        onChange={handleFileChange} 
-        type="file" 
-        accept="image/*"
-      />
-      <i className="fas fa-paperclip fa-lg"></i>
-    </StyledAttachFile>
-  );
-}
 
 export default connect(null, { handleFileUpload })(AttachFile);

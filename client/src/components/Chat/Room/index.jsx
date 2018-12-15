@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyledRoom } from './Rooms.style';
-import ActiveUsers from '../ActiveUsers';
 import MessagesList from '../MessagesList';
 import AddMessage from '../AddMessage';
 import ContentPreview from '../ContentPreview';
+import ActiveUsers from '../../../containers/Chat/ActiveUsers';
 
 const Room = () => (
   <StyledRoom>

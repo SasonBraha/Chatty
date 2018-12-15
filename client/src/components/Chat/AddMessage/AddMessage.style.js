@@ -20,8 +20,10 @@ export const typeAreaStyle = {
   border: 'none',
   outline: 'none',
   background: 'linear-gradient(to left, #eee, white)',
-  boxShadow: `0 0 .5rem var(--sahdow)`,
-  width: '100%'
+  boxShadow: `0 0 .5rem var(--shadow)`,
+  width: '100%',
+  fontFamily: 'inherit',
+  fontSize: 'inherit'
 }
 
 export const StyledSubmitMessage = styled.button`

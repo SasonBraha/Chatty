@@ -56,7 +56,7 @@ class Notifications extends Component {
     return (
       <StyledNotifications onClick={this.props.setNotificationsDropdown}>
         <i style={{ color: 'white' }} className="fas fa-bell fa-lg"></i>
-        { unseenCount ? <StyledUnseenCount>{unseenCount}</StyledUnseenCount> : <></> }
+        { unseenCount ? <StyledUnseenCount>{unseenCount}</StyledUnseenCount> : null }
         <Dropdown isOpen={isNotificationsDropdownOpen} width='30rem'>
           {this.renderNotitifcations()}
         </Dropdown>

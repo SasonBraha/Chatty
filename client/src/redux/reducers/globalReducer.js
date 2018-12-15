@@ -16,6 +16,18 @@ import {
 const initialState = {
   nav: {
     isNavOpen: window.innerWidth > 992,
+    navItems: {
+      guestNavItems: [
+        { icon: 'fas fa-sign-in-alt', to: '/signup', body: 'הרשמה' },
+        { icon: 'far fa-user-circle', to: '/signin', body: 'התחברות' }
+      ],
+      authenticatedNavItems: [
+        { icon: 'fas fa-comment', to: '/chat', body: "צ'אט" }
+      ],
+      adminNavItems: [
+        { icon: 'fas fa-cog', to: '/admin', body: 'ניהול האתר' }
+      ]
+    }
   }, 
   header: {
     brand: 'Chatty',

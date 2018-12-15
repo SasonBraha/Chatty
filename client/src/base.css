@@ -27,12 +27,12 @@
   --shadow: rgba(0, 0, 0, .2);
 }
 
-html, body {
-  height: 100%;
-}
-
 html {
   font-size: 62.5%;
+}
+
+html, body {
+  height: 100%;
 }
 
 @media (max-width: 768px) {
