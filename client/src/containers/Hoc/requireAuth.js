@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setToast } from '../../redux/actions';
-import { SIGN_IN_URL } from '../../resources/constants';
-import { REDIRECTED_FROM_QS } from '../../utils/config';
+import { REDIRECTED_FROM_QS, SIGN_IN_URL } from '../../utils/config';
 
 export default ChildComponent => {
   class ComposedComponent extends Component {

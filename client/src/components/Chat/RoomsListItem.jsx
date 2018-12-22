@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { S3_BUCKET_URL } from '../../resources/constants';
+import { S3_BUCKET_URL } from '../../utils/config';
 
 const StyledRoomListItem = styled(Link)`
   display: block;  

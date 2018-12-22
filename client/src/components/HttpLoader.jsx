@@ -3,6 +3,12 @@ import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+const HttpLoader = ({ httpRequestInProgress, dimensions, color }) => (
+  httpRequestInProgress && (
+    <StyledLoader color={color} style={{ height: dimensions, width: dimensions }} />
+  )
+);
+
 const Rotate = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -16,11 +22,6 @@ const StyledLoader = styled.div`
   position: absolute;
   right: 50%;
 `;
-
-const HttpLoader = ({ httpRequestInProgress, dimensions, color }) => 
-  httpRequestInProgress && (
-    <StyledLoader color={color} style={{ height: dimensions, width: dimensions }} />
-  );
 
 HttpLoader.propTypes = {
   dimensions: PropTypes.string.isRequired,

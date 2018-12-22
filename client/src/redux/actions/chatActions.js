@@ -17,7 +17,7 @@ import {
 } from '../constants';
 import { httpRequestInProgress, setToast } from './'; 
 import axios from 'axios';
-import socket from '../../resources/socket';
+import socket from '../../socket';
 import { API_URL } from '../../utils/config';
 
 export const createChatRoom = formValues => async _ => {
@@ -32,9 +32,9 @@ export const createChatRoom = formValues => async _ => {
         'Content-Type': 'multipart/form-data'
       }
     });
-
+    
+    // Redirect To New Chat Room
     window.location.href = `/chat/${newRoom.data.slug}`;
-
   } catch (ex) {
     throw ex;
   }

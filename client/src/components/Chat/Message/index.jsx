@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { StyledMessageContainer, StyledMessage, StyledMetaData, StyledMessageBody, StyledFigure, StyledImage } from './Message.style';
 import formatRelative from 'date-fns/formatRelative';
 import he from 'date-fns/locale/he';
-import { S3_BUCKET_URL } from '../../../resources/constants';
+import { S3_BUCKET_URL } from '../../../utils/config';
 
 const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }) => {
   const renderFile = () => {

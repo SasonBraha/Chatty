@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import media from '../../../resources/media';
+import media from '../../../utils/media';
 
 export const StyledMessageContainer = styled.div`
   margin-bottom: 1.5rem;

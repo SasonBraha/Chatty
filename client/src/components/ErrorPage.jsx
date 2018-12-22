@@ -15,7 +15,6 @@ const ErrorPage = ({ statusCode = 404 }) => (
   </StyledErrorPageContainer>
 );
 
-
 const StyledErrorPageContainer = styled.div`
   display: flex;
   flex-direction: column;

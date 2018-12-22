@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import { setToast } from './';
 import history from '../../resources/history'; 
-import { LAST_URL_PATH, SIGN_IN_URL } from '../../resources/constants';
+import { SIGN_IN_URL } from '../../utils/config';
 import { API_URL, LOCAL_STORAGE_ACCESS_TOKEN } from '../../utils/config';
 
 export const registerUser = (formData, captchaElement) => async dispatch => {
@@ -23,9 +23,7 @@ export const registerUser = (formData, captchaElement) => async dispatch => {
 export const googleOAuthLogin = token => async dispatch => {  
   try {
     const accessToken = await axios.post(`${API_URL}/auth/google`, { token: token.getAuthResponse().id_token });
-    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken.data); 
-    window.location.href = localStorage.getItem(LAST_URL_PATH) || '/'; 
-    localStorage.removeItem(LAST_URL_PATH);
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken.data);
   } catch (ex) {
     throw ex; 
   }
@@ -35,8 +33,6 @@ export const loginUser = formData => async dispatch => {
   try {
     const loginCredentials = await axios.post(`${API_URL}/auth/signin`, formData);
     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, loginCredentials.data);
-    window.location.href = localStorage.getItem(LAST_URL_PATH) || ''; 
-    localStorage.removeItem(LAST_URL_PATH);
   } catch (ex) {
     dispatch(setToast(ex.response.data.error.message, 'error'))
   }

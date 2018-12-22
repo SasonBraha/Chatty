@@ -3,8 +3,8 @@ import Room from './Room';
 import RoomsList from './RoomsList';
 import { connect } from 'react-redux';
 import requireAuth from '../../containers/Hoc/requireAuth';
-import socket from '../../resources/socket';
-import { S3_BUCKET_URL } from '../../resources/constants';
+import socket from '../../socket';
+import { S3_BUCKET_URL } from '../../utils/config';
 import {
   resetChatState,
   updateActiveUsers,
@@ -18,15 +18,9 @@ class Chat extends Component {
     const { fetchChatRoom, updateActiveUsers, updateTypingUsers, newMessage, urlSlug } = this.props;
     socket
       .emit('client:joinChatRoom', urlSlug)
-      .on('server:updateUserList', activeUsers =>
-        updateActiveUsers(activeUsers)
-      )
-      .on('server:userIsTyping', displayName =>
-        updateTypingUsers('addUser', displayName)
-      )
-      .on('server:userStoppedTyping', displayName =>
-        updateTypingUsers('removeUser', displayName)
-      )
+      .on('server:updateUserList', activeUsers => updateActiveUsers(activeUsers))
+      .on('server:userIsTyping', displayName => updateTypingUsers('addUser', displayName))
+      .on('server:userStoppedTyping', displayName => updateTypingUsers('removeUser', displayName))
       .on('server:newMessage', messageData => newMessage(messageData))
       .on('server:fileUploaded', ({ fileData, uniqueFileId }) => {
         document.getElementById(uniqueFileId).src = `${S3_BUCKET_URL}/${fileData.link}`;

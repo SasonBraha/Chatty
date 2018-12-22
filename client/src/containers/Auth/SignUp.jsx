@@ -6,7 +6,7 @@ import Field from '../../components/Form/Field';
 import Helmet from 'react-helmet';  
 import guestOnly from '../Hoc/guestOnly'; 
 import Recaptcha from 'react-google-invisible-recaptcha';
-import { GOOGLE_RECAPTCHA_SITE_KEY } from '../../resources/constants';
+import { GOOGLE_RECAPTCHA_SITE_KEY } from '../../utils/config';
  
 class Register extends Component {
   state = {
