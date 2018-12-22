@@ -1,6 +1,6 @@
 # Chatty
 
-Chat App Built With Node, Express, MongoDB, Redis, SocketIO, React And Redux
+Built with TypeScript, Node.js & Express, MongoDB & Mongoose, Redis, Aws S3, Socket.io, React, Redux and Styled Components
 
 ![screenshot_4](https://user-images.githubusercontent.com/30155843/47954015-d2834080-df8d-11e8-99ca-3dec9fed2985.png)
 
