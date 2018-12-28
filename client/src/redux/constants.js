@@ -9,6 +9,7 @@ export const SET_HEADER_DROPDOWN = `${globalPrefix}/SET_HEADER_DROPDOWN`;
 export const HTTP_REQUEST_IN_PROGRESS = `${globalPrefix}/HTTP_REQUEST_IN_PROGRESS`;
 export const SET_TOAST = `${globalPrefix}/SET_TOAST`;
 export const REMOVE_TOAST = `${globalPrefix}/REMOVE_TOAST`;
+export const RESET_MODALS = `${globalPrefix}/RESET_MODALS`;
 
 //------------------------------------//
 //  Auth                              //
@@ -35,7 +36,7 @@ export const FETCH_NOTIFICATIONS = `${userPrefix}/FETCH_NOTIFICATIONS`;
 //------------------------------------//
 const chatPrefix = '@chat';
 export const FETCH_ROOMS = `${chatPrefix}/FETCH_ROOMS`;
-export const SET_CREATE_ROOM_MODAL_STATE = `${chatPrefix}/SET_CREATE_ROOM_MODAL_STATE`;
+export const SET_CREATE_ROOM_MODAL = `${chatPrefix}/SET_CREATE_ROOM_MODAL_STATE`;
 export const FETCH_CURRENT_ROOM = `${chatPrefix}/FETCH_CURRENT_ROOM`;
 export const NEW_MESSAGE = `${chatPrefix}/NEW_MESSAGE`;
 export const UPDATE_ACTIVE_USERS = `${chatPrefix}/UPDATE_ACTIVE_USERS`;

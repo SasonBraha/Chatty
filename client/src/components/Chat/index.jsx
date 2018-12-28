@@ -12,6 +12,7 @@ import {
   newMessage,
   fetchChatRoom
 } from '../../redux/actions';
+import CreateRoom from '../../containers/Chat/CreateRoom';
 
 class Chat extends Component {
   initChat() {
@@ -59,6 +60,7 @@ class Chat extends Component {
       <div style={{ display: 'flex', height: '100%' }}>
         <RoomsList />
         <Room />
+        <CreateRoom />
       </div>
     );
   }

@@ -8,7 +8,8 @@ import {
   HTTP_REQUEST_IN_PROGRESS,
   FETCH_UNSEEN_NOTIFICATIONS_COUNT,
   SET_NOTIFICATIONS_DROPDOWN,
-  FETCH_NOTIFICATIONS
+  FETCH_NOTIFICATIONS,
+  RESET_MODALS
 } from '../constants';
 import axios from 'axios'; 
 import { generateId } from '../../utils';
@@ -68,6 +69,10 @@ export const setNotificationsDropdown = () => async (dispatch, getState) => {
     dispatch({ type: FETCH_NOTIFICATIONS, payload: axios.get(`${API_URL}/notifications`) })
   }
 }
+
+export const resetModals = () => ({
+  type: RESET_MODALS
+});
 
 export const showConsoleWarning = () => dispatch => {
   console.log('%c!עצור/י', 'color: red; font-size: 70px; font-weight: bold; direction: rtl');

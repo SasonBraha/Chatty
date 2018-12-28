@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from "./utils/registerServiceWorker";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from 'react-router-redux';
-import history from './resources/history';
+import createHistory from 'history/createBrowserHistory';
 import store from './redux/store';
 import App from "./containers/App";
 import ErrorBoundry from './components/ErrorBoundry';
 import './base.css';
+
+const history = createHistory();
 
 ReactDOM.render(
   <Provider store={store}>

@@ -14,6 +14,7 @@ const ContentPreview = ({ file, handleFileUpload }) => (
               className="fas fa-times-circle fa-2x"
               // Remove Current File From Store, Thus Removing Preview
               onClick={_ => handleFileUpload(null)} 
+              
             />
             <StyledImagePreview src={URL.createObjectURL(file)} alt="תמונה להעלאה" />
             <StyledFileName>{file.name}</StyledFileName>

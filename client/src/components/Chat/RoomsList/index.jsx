@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchRooms, setCreateRoomModalState } from '../../../redux/actions';
+import { fetchRooms } from '../../../redux/actions';
 import { StyledRoomsList } from './RoomsList.style';
 import RoomsListItem from '../RoomsListItem';
 import UserTyping from '../UserTyping';
@@ -47,5 +47,5 @@ const mapStateToProps = ({ chat: { chatRooms, urlSlug } }) => ({
 });
 export default connect(
   mapStateToProps,
-  { fetchRooms, setCreateRoomModalState }
+  { fetchRooms }
 )(RoomsList);

@@ -7,18 +7,18 @@ import formatRelative from 'date-fns/formatRelative';
 import he from 'date-fns/locale/he';
 import { S3_BUCKET_URL } from '../../../utils/config';
 
-const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }) => {
-  const renderFile = () => {
-    return file && (
-      <StyledFigure>
-        <StyledImage 
-          src={file.link && `${S3_BUCKET_URL}/${file.link}`}
-          id={file.uniqueFileId}
-        />
-      </StyledFigure>
-    );
-  }
+const renderFile = file => (
+  file && (
+    <StyledFigure>
+      <StyledImage 
+        src={file.link && `${S3_BUCKET_URL}/${file.link}`}
+        id={file.uniqueFileId}
+      />
+    </StyledFigure>
+  )
+);
 
+const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }) => {
   return (
     <StyledMessageContainer>
       <StyledMessage isMine={createdBy._id === loggedUserId}>
@@ -26,7 +26,7 @@ const Message = ({ message: { createdBy, file, body, createdAt }, loggedUserId }
           <StyledMetaData>{createdBy.displayName}</StyledMetaData>
         </Link>
         <StyledMessageBody>
-          {renderFile()}
+          {renderFile(file)}
           <Linkify properties={{ target: '_blank' }}>{body}</Linkify>
         </StyledMessageBody>
         <StyledMetaData alignLeft>{formatRelative(createdAt, new Date(), { locale: he })}</StyledMetaData>

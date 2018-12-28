@@ -10,7 +10,8 @@ export {
   httpRequestInProgress,
   fetchUnseenNotificationsCount, 
   setNotificationsDropdown, 
-  showConsoleWarning
+  showConsoleWarning,
+  resetModals
 } from './globalActions';
 
 
@@ -50,7 +51,7 @@ export {
   submitMessage,
   resetChatState,
   fetchPreviousMessages,
-  setCreateRoomModalState,
+  setCreateRoomModal,
   fetchUserSuggestions,
   setUserSuggestor
 } from './chatActions';

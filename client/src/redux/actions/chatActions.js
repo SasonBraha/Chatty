@@ -11,7 +11,7 @@ import {
   SET_IS_FETCHING_PREVIOUS_MESSAGES,
   UNSHIFT_PREVIOUS_MESSAGES,
   SET_IS_MORE_PREVIOUS_MESSAGES,
-  SET_CREATE_ROOM_MODAL_STATE,
+  SET_CREATE_ROOM_MODAL,
   FETCH_USER_SUGGESTIONS,
   SET_USER_SUGGESTOR
 } from '../constants';
@@ -144,9 +144,8 @@ export const fetchPreviousMessages = (chatId, messageId) => async (dispatch, get
   }
 };
 
-export const setCreateRoomModalState = bool => ({
-  type: SET_CREATE_ROOM_MODAL_STATE,
-  payload: bool
+export const setCreateRoomModal = () => ({
+  type: SET_CREATE_ROOM_MODAL
 });
 
 let fetchUserSuggestionsTimeout = null;

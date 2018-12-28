@@ -10,9 +10,10 @@ import {
   SET_IS_FETCHING_PREVIOUS_MESSAGES,
   SET_IS_MORE_PREVIOUS_MESSAGES,
   UNSHIFT_PREVIOUS_MESSAGES,
-  SET_CREATE_ROOM_MODAL_STATE,
+  SET_CREATE_ROOM_MODAL,
   FETCH_USER_SUGGESTIONS,
-  SET_USER_SUGGESTOR
+  SET_USER_SUGGESTOR,
+  RESET_MODALS
 } from '../constants';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -28,7 +29,7 @@ const initialState = {
   urlSlug: '',
   suggestedUsers: [],
   showUserSuggestor: false,
-  isCreateChatRoomModalOpen: false,
+  showCreateRoomModal: true,
   isFetchingPreviousMessages: false,
   isMorePreviousMessages: true
 };
@@ -117,10 +118,10 @@ export default (state = initialState, action) => {
         messages: [...action.payload, ...state.messages]
       };
 
-    case SET_CREATE_ROOM_MODAL_STATE:
+    case SET_CREATE_ROOM_MODAL:
       return {
         ...state,
-        isCreateChatRoomModalOpen: action.payload
+        showCreateRoomModal: true
       };
 
     case FETCH_USER_SUGGESTIONS: 
@@ -133,6 +134,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         showUserSuggestor: action.payload
+      }
+
+    case RESET_MODALS: 
+      return {
+        ...state,
+        showCreateRoomModal: false
       }
 
     default:
