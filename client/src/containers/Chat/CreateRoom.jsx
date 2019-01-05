@@ -2,28 +2,15 @@ import React, { Component } from 'react'
 import Modal from '../../components/Modal';
 import { Field, reduxForm } from 'redux-form';
 import Form from '../../components/Form-u';
-import FormGroup from '../../components/Form-u/FormGroup';
+import TextInput from '../../components/Form-u/TextInput';
+import FileInput from '../../components/Form-u/FileInput';
+import Select from '../../components/Form-u/Select';
 import Button from '../../components/Button';
 import { connect } from 'react-redux';
-import { resetModals } from '../../redux/actions';
-
+import { resetModals, createChatRoom } from '../../redux/actions';
+ 
 class CreateRoom extends Component {
-  renderInput({ input, label, icon, meta: { error, touched } }) {
-    const { name } = input;
-    return (
-      <FormGroup 
-        input={input}
-        name={name}
-        label={label}
-        icon={icon}
-        error={touched && error}
-      />
-    );
-  }
-
-  onSubmit = formValues => {
-    console.log(formValues);
-  }
+  onSubmit = this.props.createChatRoom;
 
   render() {
     const { showCreateRoomModal, handleSubmit, resetModals } = this.props;
@@ -39,7 +26,49 @@ class CreateRoom extends Component {
             name="name"
             label="שם החדר"
             icon="fas fa-comment-alt"
-            component={this.renderInput}
+            component={props => (
+              <TextInput 
+                {...props}
+                error={props.meta.error && props.meta.touched} 
+              />
+            )}
+          />
+
+          <Field 
+            name="isPrivate"
+            component={props => (
+              <Select
+                {...props.input}
+              >
+                <option disabled hidden value="">סוג החדר</option>
+                <option value="true">פרטי</option>
+                <option value="false">ציבורי</option>
+              </Select>
+            )}
+          />
+
+          <Field 
+            name="storeMessages"
+            component={props => (
+              <Select
+                {...props.input}
+              >
+                <option disabled hidden value="">היסטוריית הודעות</option>
+                <option value="true">שמור הודעות בחדר זה</option>
+                <option value="false">אל תשמור הודעות בחדר זה</option>
+              </Select>
+            )}
+          />
+
+          <Field 
+            name="image"
+            label="תמונה"
+            accept="image/*"
+            component={props => (
+              <FileInput 
+                {...props}
+              />
+            )}
           />
 
           <Button
@@ -58,9 +87,6 @@ class CreateRoom extends Component {
           >
             ביטול
           </Button>
-
-
-
         </Form>
       </Modal>
     );
@@ -70,7 +96,7 @@ class CreateRoom extends Component {
 const mapStateToProps = ({ chat: { showCreateRoomModal } }) => ({ showCreateRoomModal });
 export default connect(
   mapStateToProps,
-  { resetModals }
+  { resetModals, createChatRoom }
 )(reduxForm({
   form: 'createRoom'
 })(CreateRoom))

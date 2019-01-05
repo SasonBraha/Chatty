@@ -3,3 +3,5 @@
 /node_modules
 src/config/keys/keysDev.ts
 error.log
+/.env
+.history

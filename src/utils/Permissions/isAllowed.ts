@@ -17,7 +17,7 @@ import {
 
 
 const roles = {
-  Admin: {
+  [ADMIN_ROLE]: {
     categories: {
       chatRoom: {
         permissions: [
@@ -36,7 +36,7 @@ const roles = {
     }
   },
 
-  Moderator: {
+  [MODERATOR_ROLE]: {
     categories: {
       chatRoom: {
         permissions: [
@@ -52,7 +52,7 @@ const roles = {
     }
   },
 
-  User: {
+  [USER_ROLE]: {
     categories: {
       chatRoom: {
         permissions: [CREATE_CHAT_ACTION, POST_MESSAGE_ACTION]
