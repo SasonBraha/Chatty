@@ -11,24 +11,24 @@ const ActiveUser = ({ activeUser }) => (
 );
 
 const StyledActiveUser = styled.div`
-  padding: .5rem;
-  border-radius: .5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   position: relative;
-  
+
   &:not(:first-of-type) {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
   &:after {
     content: '';
     position: absolute;
     display: block;
-    bottom: .3rem;
-    right: .3rem;
-    width: .75rem;
-    height: .75rem;
+    bottom: 0.3rem;
+    right: 0.3rem;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 50%;
     background: var(--success-color);
   }

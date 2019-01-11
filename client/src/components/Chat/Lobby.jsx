@@ -1,15 +1,12 @@
-import React from 'react';
-import RoomsList from './RoomsList';
+import React, { useEffect } from 'react';
+import RoomsList from '../../containers/Chat/RoomsList';
 import requireAuth from '../../containers/Hoc/requireAuth';
-import Helmet from 'react-helmet';
 
-const Lobby = () => 
-  <>
-    <Helmet>
-      <title>לובי</title>
-    </Helmet>
-    <RoomsList />
-  </>
-;
+const Lobby = () => {
+  useEffect(() => {
+    document.title = 'לובי';
+  });
 
+  return <RoomsList />;
+};
 export default requireAuth(Lobby);

@@ -3,27 +3,60 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { S3_BUCKET_URL } from '../../utils/config';
 
+const RoomsListItem = ({ currentUrl, chatRoom }) => {
+  const { slug, image, name, lastMessage } = chatRoom;
+  return (
+    <StyledRoomListItem
+      to={`/chat/${slug}`}
+      key={slug}
+      selected={currentUrl === slug}
+    >
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <figure>
+          <StyledImage
+            src={
+              image.isUploaded ? `${S3_BUCKET_URL}/${image.link}` : image.link
+            }
+          />
+        </figure>
+        <div
+          style={{
+            marginRight: '.7rem',
+            transform: 'translateY(-.35rem)',
+            overflow: 'hidden',
+          }}
+        >
+          <StyledName>{name}</StyledName>
+          <StyledLastMessage>{lastMessage}</StyledLastMessage>
+        </div>
+      </div>
+    </StyledRoomListItem>
+  );
+};
+
 const StyledRoomListItem = styled(Link)`
-  display: block;  
+  display: block;
   padding: 1rem;
-  transition: .3s;
+  transition: 0.3s;
   color: white;
 
   &:hover {
     background: var(--active-users-color);
   }
 
-  ${({ selected }) => selected && css`
-    border-right: .5rem solid #0079ea;
-    background: var(--active-users-color);
-  `}
+  ${({ selected }) =>
+    selected &&
+    css`
+      border-right: 0.5rem solid #0079ea;
+      background: var(--active-users-color);
+    `}
 `;
 
 const StyledImage = styled.img`
   width: 3.7rem;
   height: 3.7rem;
   border-radius: 50%;
-  border: .1rem solid #484848; 
+  border: 0.1rem solid #484848;
 `;
 
 const StyledName = styled.div`
@@ -38,19 +71,4 @@ const StyledLastMessage = styled.div`
   white-space: nowrap;
 `;
 
-const RoomsListItem = ({ slug, selected, roomName, lastMessage, image }) => (
-  <StyledRoomListItem to={`/chat/${slug}`} key={slug} selected={selected}>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <figure>
-        <StyledImage src={image.isUploaded ? `${S3_BUCKET_URL}/${image.link}` : image.link} />
-      </figure>
-      <div style={{ marginRight: '.7rem', transform: 'translateY(-.35rem)', overflow: 'hidden' }}>
-        <StyledName>{roomName}</StyledName> 
-        <StyledLastMessage>{lastMessage}</StyledLastMessage>
-      </div>
-    </div>
-  </StyledRoomListItem>
-);
-
 export default RoomsListItem;
-

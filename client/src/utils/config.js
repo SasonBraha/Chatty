@@ -5,7 +5,6 @@ export const SOCKET_URL = isDevelopment ? 'http://localhost:5000' : 'https://cha
 
 // Local Storage Keys
 export const LOCAL_STORAGE_ACCESS_TOKEN = 'accessToken';
-export const LOCAL_STORAGE_LAST_URL_PATH = 'lastUrlPath';
 
 // Quert String
 export const REDIRECTED_FROM_QS = 'redirectedFrom';

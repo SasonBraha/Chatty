@@ -4,26 +4,30 @@ import styled, { css } from 'styled-components';
 
 class Container extends Component {
   state = {
-    shouldShrink: window.innerWidth > 992 ? true : false
+    shouldShrink: window.innerWidth > 992 ? true : false,
   };
-  
+
+  handleResize = () => {
+    if (!this.state.shouldShrink && window.innerWidth > 992)
+      this.setState({ shouldShrink: true });
+    if (this.state.shouldShrink && window.innerWidth < 992)
+      this.setState({ shouldShrink: false });
+  };
+
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
   }
 
-  handleResize = () => {
-    if (!this.state.shouldShrink && window.innerWidth > 992) this.setState({ shouldShrink: true });
-    if (this.state.shouldShrink && window.innerWidth < 992) this.setState({ shouldShrink: false });
-  } 
-
   render() {
     return (
-      <StyledContainer
-        navOpen={this.props.isNavOpen}
-        shouldShrink={this.state.shouldShrink}
-      >
-        {this.props.children}
-      </StyledContainer>
+      <main>
+        <StyledContainer
+          navOpen={this.props.isNavOpen}
+          shouldShrink={this.state.shouldShrink}
+        >
+          {this.props.children}
+        </StyledContainer>
+      </main>
     );
   }
 }
@@ -44,5 +48,12 @@ const StyledContainer = styled.div`
     `};
 `;
 
-const mapStateToProps = ({ global: { nav: { isNavOpen } } }) => ({ isNavOpen });
-export default connect(mapStateToProps, null)(Container);
+const mapStateToProps = ({
+  global: {
+    nav: { isNavOpen },
+  },
+}) => ({ isNavOpen });
+export default connect(
+  mapStateToProps,
+  null
+)(Container);

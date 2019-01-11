@@ -5,9 +5,9 @@ const accessToken = localStorage.getItem('accessToken') || null;
 
 class Socket {
   constructor() {
-    this.connection = accessToken 
+    this.connection = accessToken
       ? io(`${SOCKET_URL}`, { query: `token=${accessToken.split(' ')[1]}` })
-      : null
+      : null;
   }
 }
 

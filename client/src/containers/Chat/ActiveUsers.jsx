@@ -6,16 +6,16 @@ import ActiveUsersLoader from '../../components/Chat/ActiveUsers.loader';
 
 const ActiveUsers = ({ activeUsers }) => (
   <StyledActiveUsers>
-    {
-      activeUsers.length
-        ? activeUsers.map(activeUser => <ActiveUser activeUser={activeUser} key={activeUser.slug} />)
-        : Array.from({ length: 20 }).map((_, i) => <ActiveUsersLoader key={i} />) 
-    }
+    {activeUsers.length
+      ? activeUsers.map(activeUser => (
+          <ActiveUser activeUser={activeUser} key={activeUser.slug} />
+        ))
+      : Array.from({ length: 20 }).map((_, i) => <ActiveUsersLoader key={i} />)}
   </StyledActiveUsers>
 );
 
 const StyledActiveUsers = styled.div`
-  padding: 0 2rem 0 2rem; 
+  padding: 0 2rem 0 2rem;
   text-align: center;
   height: 100%;
   background: var(--active-users-color);
@@ -27,4 +27,7 @@ const StyledActiveUsers = styled.div`
 `;
 
 const mapStateToProps = ({ chat: { activeUsers } }) => ({ activeUsers });
-export default connect(mapStateToProps, null)(ActiveUsers);
+export default connect(
+  mapStateToProps,
+  null
+)(ActiveUsers);

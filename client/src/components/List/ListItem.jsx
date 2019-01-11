@@ -3,6 +3,36 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+const ListItemBody = styled.span`
+  margin-right: 1rem;
+`;
+
+const ListItem = ({ icon, to, body, image, onClick, backgroundOnHover }) => {
+  return (
+    <StyledListItem backgroundOnHover={backgroundOnHover}>
+      {to ? (
+        <Link to={to} className="alignVertical">
+          {icon ? (
+            <i className={icon} />
+          ) : (
+            <img src={image} alt="תמונת פרופיל" />
+          )}
+          <ListItemBody>{body}</ListItemBody>
+        </Link>
+      ) : (
+        <div className="ListItemContainer alignVertical" onClick={onClick}>
+          {icon ? (
+            <i className={icon} />
+          ) : (
+            <img src={image} alt="תמונת פרופיל" />
+          )}
+          <ListItemBody>{body}</ListItemBody>
+        </div>
+      )}
+    </StyledListItem>
+  );
+};
+
 const StyledListItem = styled.li`
   transition: 0.3s;
 
@@ -33,35 +63,13 @@ const StyledListItem = styled.li`
   }
 `;
 
-const ListItemBody = styled.span`
-  margin-right: 1rem;
-`;
-
-const ListItem = ({ icon, to, body, image, onClick, backgroundOnHover }) => {
-  return (
-    <StyledListItem backgroundOnHover={backgroundOnHover}>
-      {to ? (
-        <Link to={to} className="alignVertical">
-          {icon ? <i className={icon} /> : <img src={image} alt="תמונת פרופיל" />}
-          <ListItemBody>{body}</ListItemBody>
-        </Link>
-      ) : (
-        <div className="ListItemContainer alignVertical" onClick={onClick}>
-          {icon ? <i className={icon} /> : <img src={image} alt="תמונת פרופיל" />}
-          <ListItemBody>{body}</ListItemBody>
-        </div>
-      )}
-    </StyledListItem>
-  );
-};
-
 ListItem.propTypes = {
   icon: PropTypes.string,
   to: PropTypes.string,
   body: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   backgroundOnHover: PropTypes.string,
-  image: PropTypes.string
+  image: PropTypes.string,
 };
 
 export default ListItem;

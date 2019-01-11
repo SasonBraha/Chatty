@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Room from './Room';
+import Room from '../../components/Chat/Room';
 import RoomsList from './RoomsList';
 import { connect } from 'react-redux';
-import requireAuth from '../../containers/Hoc/requireAuth';
+import requireAuth from '../Hoc/requireAuth';
 import socket from '../../socket';
 import { S3_BUCKET_URL } from '../../utils/config';
 import {
@@ -10,21 +10,36 @@ import {
   updateActiveUsers,
   updateTypingUsers,
   newMessage,
-  fetchChatRoom
+  fetchChatRoom,
 } from '../../redux/actions';
-import CreateRoom from '../../containers/Chat/CreateRoom';
+import CreateRoom from './CreateRoom';
+import styled from 'styled-components';
 
 class Chat extends Component {
   initChat() {
-    const { fetchChatRoom, updateActiveUsers, updateTypingUsers, newMessage, urlSlug } = this.props;
+    const {
+      fetchChatRoom,
+      updateActiveUsers,
+      updateTypingUsers,
+      newMessage,
+      urlSlug,
+    } = this.props;
     socket
       .emit('client:joinChatRoom', urlSlug)
-      .on('server:updateUserList', activeUsers => updateActiveUsers(activeUsers))
-      .on('server:userIsTyping', displayName => updateTypingUsers('addUser', displayName))
-      .on('server:userStoppedTyping', displayName => updateTypingUsers('removeUser', displayName))
+      .on('server:updateUserList', activeUsers =>
+        updateActiveUsers(activeUsers)
+      )
+      .on('server:userIsTyping', displayName =>
+        updateTypingUsers('addUser', displayName)
+      )
+      .on('server:userStoppedTyping', displayName =>
+        updateTypingUsers('removeUser', displayName)
+      )
       .on('server:newMessage', messageData => newMessage(messageData))
       .on('server:fileUploaded', ({ fileData, uniqueFileId }) => {
-        document.getElementById(uniqueFileId).src = `${S3_BUCKET_URL}/${fileData.link}`;
+        document.getElementById(uniqueFileId).src = `${S3_BUCKET_URL}/${
+          fileData.link
+        }`;
       });
     fetchChatRoom(urlSlug);
   }
@@ -57,14 +72,19 @@ class Chat extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', height: '100%' }}>
+      <StyledChatWrapper>
         <RoomsList />
         <Room />
         <CreateRoom />
-      </div>
+      </StyledChatWrapper>
     );
   }
 }
+
+const StyledChatWrapper = styled.div`
+  display: flex;
+  height: 100%;
+`;
 
 const mapStateToProps = ({ chat: { urlSlug } }) => ({ urlSlug });
 export default connect(
@@ -74,6 +94,6 @@ export default connect(
     updateActiveUsers,
     updateTypingUsers,
     newMessage,
-    fetchChatRoom
+    fetchChatRoom,
   }
 )(requireAuth(Chat));

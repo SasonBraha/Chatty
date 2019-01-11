@@ -3,17 +3,15 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Button = props => (
-  <StyledButton {...props}>
-    {props.children}
-  </StyledButton>
+  <StyledButton {...props}>{props.children}</StyledButton>
 );
 
 const StyledButton = styled.button`
-  border: .1rem solid ${({ background }) => background};
-  border-radius: .5rem;
+  border: 0.1rem solid ${({ background }) => background};
+  border-radius: 0.5rem;
   background: ${({ background }) => background};
   color: ${({ color }) => color};
-  transition: .3s;
+  transition: 0.3s;
   padding: 1rem 2rem;
   cursor: pointer;
   outline: none;
@@ -25,7 +23,8 @@ const StyledButton = styled.button`
     margin-left: 2rem;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background: ${({ color }) => color};
     color: ${({ background }) => background};
   }
@@ -33,7 +32,7 @@ const StyledButton = styled.button`
 
 Button.propTypes = {
   background: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
-}
+  color: PropTypes.string.isRequired,
+};
 
 export default Button;

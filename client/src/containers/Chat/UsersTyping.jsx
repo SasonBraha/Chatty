@@ -2,12 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 
+const UserTyping = ({ typingUsers }) =>
+  typingUsers.length ? (
+    <StyledUserTyping>
+      <StyledDot animationDelay={-0.32} />
+      <StyledDot animationDelay={-0.16} />
+      <StyledDot animationDelay={0} />
+    </StyledUserTyping>
+  ) : (
+    <></>
+  );
+
 const Bounce = keyframes`
-  0% {
+  from {
     transform: scale(0);
   }
 
-  100% {
+  to {
     transform: scale(1);
   }
 `;
@@ -18,8 +29,8 @@ const StyledDot = styled.div`
   height: 1.3rem;
   border-radius: 50%;
   background: white;
-  margin-left: .5rem;
-  animation: ${Bounce} .7s infinite ease-in-out alternate;
+  margin-left: 0.5rem;
+  animation: ${Bounce} 0.7s infinite ease-in-out alternate;
   animation-delay: ${({ animationDelay }) => `${animationDelay}s`};
 `;
 
@@ -34,15 +45,8 @@ const StyledUserTyping = styled.div`
   width: 100%;
 `;
 
-const UserTyping = ({ typingUsers }) => (
-  typingUsers.length ? (
-    <StyledUserTyping>
-      <StyledDot animationDelay={-0.32}></StyledDot>
-      <StyledDot animationDelay={-0.16}></StyledDot>
-      <StyledDot animationDelay={0}></StyledDot>
-    </StyledUserTyping>
-  ): <></>
-);
-  
 const mapStateToProps = ({ chat: { typingUsers } }) => ({ typingUsers });
-export default connect(mapStateToProps, null)(UserTyping);
+export default connect(
+  mapStateToProps,
+  null
+)(UserTyping);

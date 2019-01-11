@@ -3,19 +3,21 @@ import styled from 'styled-components';
 
 class ErrorBoundry extends Component {
   state = {
-    hasError: false
-  }
+    hasError: false,
+  };
 
   static getDerivedStateFromError(ex) {
     return {
-      hasErr: true
-    }
+      hasErr: true,
+    };
   }
 
   render() {
-    return this.state.hasError
-      ? <StyledErrorBoundry>אוי! משהו השתבש.</StyledErrorBoundry>
-      : this.props.children
+    return this.state.hasError ? (
+      <StyledErrorBoundry>אוי! משהו השתבש.</StyledErrorBoundry>
+    ) : (
+      this.props.children
+    );
   }
 }
 

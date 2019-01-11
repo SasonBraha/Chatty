@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 const List = ({ color, children }) => <ul style={{ color }}>{children}</ul>;
 
 List.defaultProps = {
-  color: 'white'
+  color: 'white',
 };
 
 List.propTypes = {
-  color: PropTypes.string
+  color: PropTypes.string,
 };
 
 export default List;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Routes from '../components/Routes';
 import { Header, Nav } from './Layouts';
 import Container from './Container';
-import Toasts from './Toasts';  
+import Toasts from './Toasts';
 
 class App extends Component {
   constructor(props) {
@@ -20,11 +20,9 @@ class App extends Component {
         <Header />
         <Nav />
 
-        <main>
-          <Container>
-            <Routes />
-          </Container>
-        </main>
+        <Container>
+          <Routes />
+        </Container>
 
         <Toasts />
       </>
@@ -32,4 +30,9 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect(null, { setUserCredentials, showConsoleWarning })(App));
+export default withRouter(
+  connect(
+    null,
+    { setUserCredentials, showConsoleWarning }
+  )(App)
+);
