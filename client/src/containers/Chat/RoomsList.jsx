@@ -9,7 +9,7 @@ import styled from 'styled-components';
 const RoomsList = ({ chatRooms, urlSlug, fetchRooms }) => {
   useEffect(() => {
     fetchRooms();
-  });
+  }, []);
 
   return (
     <StyledRoomsList>

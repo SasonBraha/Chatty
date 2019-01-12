@@ -10,7 +10,10 @@ class MessagesList extends Component {
     const { messages: oldMessages } = prevProps;
     const { messages } = this.props;
     if (oldMessages.length && messages.length - oldMessages.length !== 1) {
-      return this.messagesListContainer.scrollHeight - this.messagesListContainer.scrollTop;
+      return (
+        this.messagesListContainer.scrollHeight -
+        this.messagesListContainer.scrollTop
+      );
     }
     return null;
   }
@@ -18,11 +21,12 @@ class MessagesList extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { messages: oldMessages } = prevProps;
     const { messages } = this.props;
-    
+
     if (snapshot !== null) {
-      return this.messagesListContainer.scrollTop = this.messagesListContainer.scrollHeight - snapshot;
+      return (this.messagesListContainer.scrollTop =
+        this.messagesListContainer.scrollHeight - snapshot);
     }
-    
+
     if (oldMessages.length !== messages.length) {
       this.viewEnd.scrollIntoView();
     }
@@ -37,7 +41,9 @@ class MessagesList extends Component {
   };
 
   renderLoader() {
-    return Array.from({ length: 20 }).map((_, i) => <MessagesListLoader key={i} />);
+    return Array.from({ length: 20 }).map((_, i) => (
+      <MessagesListLoader key={i} />
+    ));
   }
 
   render() {
@@ -45,20 +51,39 @@ class MessagesList extends Component {
     return (
       <StyledMessagesList
         onScroll={this.handleScroll}
-        innerRef={el => this.messagesListContainer = el}
+        innerRef={el => (this.messagesListContainer = el)}
       >
-        { isFetched && !storeMessages && <StyledInfoMessage background="#ff9503">בחדר זה לא נשמרת היסטוריית ההודעות</StyledInfoMessage> }
-        { isFetched && !messages.length && <StyledInfoMessage background="#007bff">טרם נשלחו הודעות בחדר זה</StyledInfoMessage> } 
-        {
-          messages.length
-            ? messages.map((message, i) => <Message key={i} message={message} />)
-            : isFetched ? <></> : this.renderLoader()
-        }
-        <div id="viewEnd" ref={el => this.viewEnd = el} />
+        {isFetched && !storeMessages && (
+          <StyledInfoMessage background="#ff9503">
+            בחדר זה לא נשמרת היסטוריית ההודעות
+          </StyledInfoMessage>
+        )}
+        {isFetched && !messages.length && (
+          <StyledInfoMessage background="#007bff">
+            טרם נשלחו הודעות בחדר זה
+          </StyledInfoMessage>
+        )}
+        {messages.length ? (
+          messages.map((message, i) => <Message key={i} message={message} />)
+        ) : isFetched ? (
+          <></>
+        ) : (
+          this.renderLoader()
+        )}
+        <div id="viewEnd" ref={el => (this.viewEnd = el)} />
       </StyledMessagesList>
     );
   }
 }
 
-const mapStateToProps = ({ chat: { messages, isFetched, currentChat: { _id, storeMessages } } }) => ({ messages, _id, storeMessages, isFetched });
-export default connect(mapStateToProps, { newMessage, fetchPreviousMessages })(MessagesList);
+const mapStateToProps = ({
+  chat: {
+    messages,
+    isFetched,
+    currentChat: { _id, storeMessages },
+  },
+}) => ({ messages, _id, storeMessages, isFetched });
+export default connect(
+  mapStateToProps,
+  { newMessage, fetchPreviousMessages }
+)(MessagesList);

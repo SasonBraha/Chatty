@@ -10,7 +10,7 @@ const UserSuggestor = ({ suggestedUsers, showUserSuggestor }) => (
     in={suggestedUsers.length > 0 && showUserSuggestor}
     mountOnEnter
     unmountOnExit
-    timeout={{ enter: 0, exit: 500 }}
+    timeout={{ enter: 0, exit: 300 }}
   >
     {mountState => (
       <StyledUserSuggestor className={mountState}>

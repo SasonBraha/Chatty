@@ -1,36 +1,28 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 
-class Container extends Component {
-  state = {
-    shouldShrink: window.innerWidth > 992 ? true : false,
-  };
+const Container = props => {
+  const [shouldShrink, setShouldShrink] = useState(window.innerWidth > 992);
+  useEffect(() => {
+    window.onresize = () => {
+      const windowWidth = window.innerWidth;
+      if (!shouldShrink && windowWidth > 992) {
+        setShouldShrink(true);
+      } else if (shouldShrink && windowWidth < 992) {
+        setShouldShrink(false);
+      }
+    };
+  });
 
-  handleResize = () => {
-    if (!this.state.shouldShrink && window.innerWidth > 992)
-      this.setState({ shouldShrink: true });
-    if (this.state.shouldShrink && window.innerWidth < 992)
-      this.setState({ shouldShrink: false });
-  };
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  render() {
-    return (
-      <main>
-        <StyledContainer
-          navOpen={this.props.isNavOpen}
-          shouldShrink={this.state.shouldShrink}
-        >
-          {this.props.children}
-        </StyledContainer>
-      </main>
-    );
-  }
-}
+  return (
+    <main>
+      <StyledContainer navOpen={props.isNavOpen} shouldShrink={shouldShrink}>
+        {props.children}
+      </StyledContainer>
+    </main>
+  );
+};
 
 const StyledContainer = styled.div`
   width: 100%;

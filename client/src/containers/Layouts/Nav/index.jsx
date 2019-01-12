@@ -7,9 +7,16 @@ import ListItem from '../../../components/List/ListItem';
 import GoogleSiginIn from '../../Auth/GoogleSignIn';
 
 const navItems = props => {
-  const { isAuthenticated, userRole, navItems: { authenticatedNavItems, guestNavItems, adminNavItems } } = props;
-  let navItemsToRender = isAuthenticated ? authenticatedNavItems : guestNavItems;
-  if (userRole === 'Admin') navItemsToRender = [...navItemsToRender, ...adminNavItems];
+  const {
+    isAuthenticated,
+    userRole,
+    navItems: { authenticatedNavItems, guestNavItems, adminNavItems },
+  } = props;
+  let navItemsToRender = isAuthenticated
+    ? authenticatedNavItems
+    : guestNavItems;
+  if (userRole === 'Admin')
+    navItemsToRender = [...navItemsToRender, ...adminNavItems];
   return navItemsToRender;
 };
 
@@ -19,17 +26,15 @@ const Nav = props => (
     onClick={() => window.innerWidth < 992 && props.setNavState()}
   >
     <List>
-      {
-        navItems(props).map(({ to, icon, body }, index) => (
-          <ListItem
-            key={index}
-            to={to}
-            icon={icon}
-            body={body}
-            backgroundOnHover="light"
-          />
-        ))
-      }
+      {navItems(props).map(({ to, icon, body }, index) => (
+        <ListItem
+          key={index}
+          to={to}
+          icon={icon}
+          body={body}
+          backgroundOnHover="light"
+        />
+      ))}
     </List>
     <div className="oAuthOptions" style={{ padding: '0 .7rem' }}>
       <GoogleSiginIn />
@@ -37,20 +42,19 @@ const Nav = props => (
   </StyledNav>
 );
 
-
 const mapStateToProps = ({
   global: {
-    nav: { isNavOpen, navItems }
+    nav: { isNavOpen, navItems },
   },
   auth: {
     isAuthenticated,
-    userData: { role: userRole }
-  }
+    userData: { role: userRole },
+  },
 }) => ({
   isNavOpen,
   navItems,
-  isAuthenticated, 
-  userRole
+  isAuthenticated,
+  userRole,
 });
 
 export default connect(

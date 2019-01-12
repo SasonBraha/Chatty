@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import withRouter from 'react-router-dom/withRouter';
 import { setUserCredentials, showConsoleWarning } from '../redux/actions';
 import { connect } from 'react-redux';
@@ -7,28 +7,25 @@ import { Header, Nav } from './Layouts';
 import Container from './Container';
 import Toasts from './Toasts';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.props.setUserCredentials();
-    this.props.showConsoleWarning();
-  }
+const App = ({ setUserCredentials, showConsoleWarning }) => {
+  useEffect(() => {
+    setUserCredentials();
+    showConsoleWarning();
+  }, []);
 
-  render() {
-    return (
-      <>
-        <Header />
-        <Nav />
+  return (
+    <React.Fragment>
+      <Header />
+      <Nav />
 
-        <Container>
-          <Routes />
-        </Container>
+      <Container>
+        <Routes />
+      </Container>
 
-        <Toasts />
-      </>
-    );
-  }
-}
+      <Toasts />
+    </React.Fragment>
+  );
+};
 
 export default withRouter(
   connect(

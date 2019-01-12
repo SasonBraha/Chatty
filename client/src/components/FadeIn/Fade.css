@@ -1,8 +1,0 @@
-.fade {
-  transition: .3s;
-  z-index: 2;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-}
-

@@ -10,19 +10,17 @@ import Notifications from './Notifications';
 
 const Header = props => {
   const { isAuthenticated, setNavState, brand } = props;
-  return ( 
+  return (
     <StyledHeader>
       <NavButton onClick={setNavState} />
       <StyledBrand to="/">{brand}</StyledBrand>
       <HttpLoader color="white" dimensions="3.2rem" />
-        {
-          isAuthenticated && (
-            <StyledHeaderOptions>
-              <Notifications />
-              <ProfileDropdown />
-            </StyledHeaderOptions>
-          )
-        }
+      {isAuthenticated && (
+        <StyledHeaderOptions>
+          <Notifications />
+          <ProfileDropdown />
+        </StyledHeaderOptions>
+      )}
     </StyledHeader>
   );
 };
@@ -53,11 +51,14 @@ const mapStateToProps = ({
   auth: { isAuthenticated },
   global: {
     header: { brand, isHeaderDropdownOpen },
-  }
+  },
 }) => ({
   isAuthenticated,
   brand,
-  isHeaderDropdownOpen
+  isHeaderDropdownOpen,
 });
 
-export default connect(mapStateToProps, { setNavState })(Header);
+export default connect(
+  mapStateToProps,
+  { setNavState }
+)(Header);
